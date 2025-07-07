@@ -110,6 +110,11 @@ CREATE TABLE amortissement (
     capitalRembourse DECIMAL(10,2) NOT NULL,
     capitalRestant DECIMAL(10,2) NOT NULL,
     montantTotal DECIMAL(10,2) NOT NULL,
+    montantMensuel DECIMAL(10,2) NOT NULL,
+    interet DECIMAL(10,2) NOT NULL,
+    assurance DECIMAL(10,2) DEFAULT 0.00,
+    capitalRembourse DECIMAL(10,2) NOT NULL,
+    capitalRestant DECIMAL(10,2) NOT NULL,
     FOREIGN KEY (idPret) REFERENCES pret(idPret)
 );
 
@@ -121,10 +126,11 @@ CREATE TABLE remboursement(
     montantPaye DECIMAL(10,2) NOT NULL,
     capital_restant DECIMAL(10,2) NOT NULL,
     capital_rembourse DECIMAL(10,2) NOT NULL,
-    interet DECIMAL(5,2) NOT NULL,
+    interet DECIMAL(10,2) NOT NULL,        
+    assurance DECIMAL(10,2) DEFAULT 0.00,  
     datePaiement TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    modePaiement INT, -- Espèces, Chèque, Virement, etc.
-    reference VARCHAR(50), -- Numéro de chèque, référence virement
+    modePaiement INT,
+    reference VARCHAR(50),
     FOREIGN KEY (idPret) REFERENCES pret(idPret),
     FOREIGN KEY (idAmortissement) REFERENCES amortissement(idAmortissement),
     FOREIGN KEY (modePaiement) REFERENCES modePaiement(idmodePaiement)
