@@ -105,9 +105,10 @@ CREATE TABLE remboursement(
     idPret INT NOT NULL,
     numMois INT NOT NULL, 
     montantPaye DECIMAL(10,2) NOT NULL,
+    
     datePaiement TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    modePaiement INT, -- Espèces, Chèque, Virement, etc.
-    reference VARCHAR(50), -- Numéro de chèque, référence virement
+    modePaiement INT, 
+    reference VARCHAR(50), 
     FOREIGN KEY (idPret) REFERENCES pret(idPret),
     FOREIGN KEY (modePaiement) REFERENCES modePaiement(idmodePaiement)
 );
