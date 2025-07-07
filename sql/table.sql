@@ -97,7 +97,7 @@ CREATE TABLE modePaiement(
     libelle VARCHAR(50)
 );
 
-CREATE TABLE paiement(
+CREATE TABLE remboursement(
     idPaiement INT AUTO_INCREMENT PRIMARY KEY,
     idPret INT NOT NULL,
     montantPaye DECIMAL(10,2) NOT NULL,
