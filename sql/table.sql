@@ -37,8 +37,9 @@ CREATE TABLE type_pret(
     type_retour INT,
     dateCreation DATE NOT NULL,
     dateAbolition DATE,
-    pretmin INT,
-    pretmax INT,
+    pretmin INT NOT NULL,
+    pretmax INT NOT NULL,
+    dureeMoisMax INT NOT NULL,
     FOREIGN KEY (type_retour) REFERENCES type_retour(idTypeRetour)
 );
 CREATE TABLE client(
