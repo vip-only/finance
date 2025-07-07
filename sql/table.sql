@@ -94,7 +94,7 @@ CREATE TABLE pret(
 CREATE TABLE etat_pret(
     idEtatPret INT AUTO_INCREMENT PRIMARY KEY,
     idPret INT NOT NULL,
-    etat INT NOT NULL, -- En attente, Accepté, Rejeté, En
+    etat INT NOT NULL, -- En attente, Accepté, Rejeté
     dateEtat TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (idPret) REFERENCES pret(idPret),
     FOREIGN KEY (etat) REFERENCES etatValidation(idEtat)
