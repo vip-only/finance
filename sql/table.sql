@@ -1,7 +1,28 @@
+CREATE DATABASE IF NOT EXISTS banque;
+USE banque;
+
+
+CREATE TABLE etatActif(
+    idEtat INT AUTO_INCREMENT PRIMARY KEY,
+    libelle VARCHAR(50)
+);
+
 CREATE TABLE etatValidation(
     idEtat INT AUTO_INCREMENT PRIMARY KEY,
     libelle VARCHAR(100) NOT NULL
 );
+
+CREATE TABLE agent(
+    idAgent INT AUTO_INCREMENT PRIMARY KEY,
+    nom VARCHAR(50) NOT NULL,
+    prenom VARCHAR(50) NOT NULL,
+    motdepasse VARCHAR(255) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    role VARCHAR(50) NOT NULL, -- Administrateur, Conseiller, etc.
+    etatActif INT DEFAULT 1, -- Actif, Inactif
+    FOREIGN KEY (etatActif) REFERENCES etatActif(idEtat)
+);
+
 
 CREATE TABLE fondEntrant(
     idfond INT AUTO_INCREMENT PRIMARY KEY,
@@ -28,11 +49,6 @@ CREATE TABLE type_pret(
     FOREIGN KEY (type_retour) REFERENCES type_retour(idTypeRetour)
 );
 
-CREATE TABLE etatClient(
-    idEtat INT AUTO_INCREMENT PRIMARY KEY,
-    libelle VARCHAR(50)
-);
-
 CREATE TABLE client(
     idClient INT AUTO_INCREMENT PRIMARY KEY,
     nom VARCHAR(50) NOT NULL,
@@ -45,8 +61,8 @@ CREATE TABLE client(
     profession VARCHAR(100),
     revenuMensuel DECIMAL(10,2),
     dateInscription TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    etatClient INT DEFAULT 1,
-    FOREIGN KEY (etatClient) REFERENCES etatClient(idEtat)
+    etatActif INT DEFAULT 1,
+    FOREIGN KEY (etatActif) REFERENCES etatActif(idEtat)
 );
 
 CREATE TABLE demande_pret(
