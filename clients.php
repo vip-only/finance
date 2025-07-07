@@ -12,6 +12,24 @@ include 'includes/header.php';
         <p class="subtitle">Gérez votre portefeuille clients et leurs informations</p>
         
         <div class="section">
+            <h2>Liste des clients</h2>
+            
+            <table id="clientsTable">
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Prénom</th>
+                        <th>Email</th>
+                        <th>Téléphone</th>
+                        <th>Profession</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="clientsTableBody">
+                </tbody>
+            </table>
+        </div>
+        <div class="section">
             <h2>Créer un nouveau client</h2>
             <form id="clientForm">
                 <input type="hidden" id="idClient">
@@ -70,24 +88,6 @@ include 'includes/header.php';
             </form>
         </div>
         
-        <div class="section">
-            <h2>Liste des clients</h2>
-            
-            <table id="clientsTable">
-                <thead>
-                    <tr>
-                        <th>Nom</th>
-                        <th>Prénom</th>
-                        <th>Email</th>
-                        <th>Téléphone</th>
-                        <th>Profession</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="clientsTableBody">
-                </tbody>
-            </table>
-        </div>
     </div>
 </div>
 
@@ -184,7 +184,6 @@ include 'includes/header.php';
         ajax("GET", `/clients/${id}`, null, (client) => {
             const detailsDiv = document.getElementById('clientDetails');
             detailsDiv.innerHTML = `
-                <p><strong>ID:</strong> ${client.idClient}</p>
                 <p><strong>Nom:</strong> ${client.nom}</p>
                 <p><strong>Prénom:</strong> ${client.prenom}</p>
                 <p><strong>Email:</strong> ${client.email}</p>
