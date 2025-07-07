@@ -2,6 +2,7 @@ AJOUT PRET :
 -Regles de gestion :
     type_tour : par defaut mensuel ?
     nb_de_remboursement = dureeMois / type_retour
+    taux mensuel = taux / nb_de_remboursement
 
     -typePret : pretmin <= montantAccorde <= pretmax
                 dureeMois <= dureeMoisMax
@@ -10,7 +11,9 @@ AJOUT PRET :
 
     -dateAccepte : now
 
-    -calcul automatique du montant total montantTotal = montantAccorde + (montantAccorde * taux/nb_de_remboursement * nb_de_remboursement)
+    -calcul automatique du montant total montantTotal = montantAccorde + (montantAccorde * taux mensuel * nb_de_remboursement)
 
 => miajouter amortissement any amin base du mois de dateDebutRemb a mois de dateFinRemb
     Manao anle annuite constante (mois, captial restant, taux interet, montant a payer, capital rembourse)
+
+prompt amortissement par pret : 

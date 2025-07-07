@@ -1,6 +1,6 @@
 <?php
 function getDB() {
-    $host = 'localhost';
+    $host = 'localhost:3307';
     $dbname = 'banque';
     $username = 'root';
     $password = '';

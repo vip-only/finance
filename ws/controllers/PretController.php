@@ -37,4 +37,9 @@ class PretController {
         $options = Pret::getOptions($table, $idField, $labelField);
         Flight::json($options);
     }
+
+    public static function genererAmortissements($idPret) {
+        $i = Pret::genererAmortissements($idPret);
+        Flight::json(['message' => 'Amortissements générés', 'taux_mensuel' => $i]);
+    }
 }

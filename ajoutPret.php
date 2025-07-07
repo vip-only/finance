@@ -22,6 +22,21 @@
         </select>
         <button onclick="ajouterOuModifier()">Ajouter / Modifier</button>
     </div>
+    <div style="margin-bottom: 15px;">
+        <label>Mois début: <input type="number" id="moisDebut" min="1" max="12" style="width:60px"></label>
+        <label>Année début: <input type="number" id="anneeDebut" min="2000" style="width:80px"></label>
+        <label>Mois fin: <input type="number" id="moisFin" min="1" max="12" style="width:60px"></label>
+        <label>Année fin: <input type="number" id="anneeFin" min="2000" style="width:80px"></label>
+        <label>État:
+            <select id="etatFilter">
+                <option value="">Tous</option>
+                <option value="1">En attente</option>
+                <option value="2">Accepté</option>
+                <option value="3">Rejeté</option>
+            </select>
+        </label>
+        <button onclick="chargerPrets()">Filtrer</button>
+    </div>
     <table id="table-prets">
         <thead>
             <tr>
@@ -94,26 +109,56 @@
         });
 
         function chargerPrets() {
+            // Récupère les filtres
+            const moisDebut = parseInt(document.getElementById('moisDebut').value);
+            const anneeDebut = parseInt(document.getElementById('anneeDebut').value);
+            const moisFin = parseInt(document.getElementById('moisFin').value);
+            const anneeFin = parseInt(document.getElementById('anneeFin').value);
+            const etat = document.getElementById('etatFilter').value;
+
             ajax("GET", "/prets", null, (data) => {
-                const tbody = document.querySelector("#table-prets tbody");
-                tbody.innerHTML = "";
-                data.forEach(p => {
-                    const tr = document.createElement("tr");
-                    tr.innerHTML = `
-                        <td>${p.idPret}</td>
-                        <td>${p.idClient}</td>
-                        <td>${p.idTypePret}</td>
-                        <td>${p.montantAccorde}</td>
-                        <td>${p.dureeMois}</td>
-                        <td>${p.DELAI}</td>
-                        <td>${p.dateDebutRemboursement}</td>
-                        <td>${p.dateFinRemboursement}</td>
-                        <td>
-                            <button onclick='remplirFormulaire(${JSON.stringify(p)})'>✏️</button>
-                            <button onclick='supprimerPret(${p.idPret})'>🗑️</button>
-                        </td>
-                    `;
-                    tbody.appendChild(tr);
+                ajax("GET", "/etat_prets", null, (etats) => {
+                    const tbody = document.querySelector("#table-prets tbody");
+                    tbody.innerHTML = "";
+                    data.forEach(p => {
+                        // Trouver l'état courant
+                        const etatPret = etats.find(e => e.idPret == p.idPret);
+                        const etatVal = etatPret ? etatPret.etat : '';
+
+                        // Filtrage sur dateAccepte
+                        const dateAccepte = new Date(p.dateAccepte);
+                        let show = true;
+                        if (!isNaN(moisDebut) && !isNaN(anneeDebut)) {
+                            const dateDebutFiltre = new Date(anneeDebut, moisDebut - 1, 1);
+                            if (dateAccepte < dateDebutFiltre) show = false;
+                        }
+                        if (!isNaN(moisFin) && !isNaN(anneeFin)) {
+                            const dateFinFiltre = new Date(anneeFin, moisFin, 0);
+                            if (dateAccepte > dateFinFiltre) show = false;
+                        }
+                        if (etat && etatVal != etat) show = false;
+                        if (!show) return;
+
+                        let actions = `<button onclick='remplirFormulaire(${JSON.stringify(p)})'>✏️</button>
+                                       <button onclick='supprimerPret(${p.idPret})'>🗑️</button>`;
+                        if (etatVal == 1) {
+                            actions += ` <button onclick='changerEtatPret(${p.idPret},2,${JSON.stringify(p)})'>Accepter</button>
+                                         <button onclick='changerEtatPret(${p.idPret},3)'>Rejeter</button>`;
+                        }
+                        tbody.innerHTML += `
+                            <tr>
+                                <td>${p.idPret}</td>
+                                <td>${p.idClient}</td>
+                                <td>${p.idTypePret}</td>
+                                <td>${p.montantAccorde}</td>
+                                <td>${p.dureeMois}</td>
+                                <td>${p.DELAI}</td>
+                                <td>${p.dateDebutRemboursement}</td>
+                                <td>${p.dateFinRemboursement}</td>
+                                <td>${actions}</td>
+                            </tr>
+                        `;
+                    });
                 });
             });
         }
@@ -161,6 +206,21 @@
             document.getElementById("dureeMois").value = "";
             document.getElementById("DELAI").value = "";
             document.getElementById("modePaiement").value = "";
+        }
+
+        function changerEtatPret(idPret, nouvelEtat, pretObj) {
+            ajax("POST", `/prets/${idPret}/etat`, `etat=${nouvelEtat}`, (res) => {
+                if (nouvelEtat == 2) {
+                    ajax("POST", `/prets/${idPret}/amortissements`, null, (r) => {
+                        if (r.taux_mensuel !== undefined) {
+                            alert("Taux d'intérêt mensuel (i) : " + (r.taux_mensuel * 100).toFixed(4) + " %");
+                        }
+                        chargerPrets();
+                    });
+                } else {
+                    chargerPrets();
+                }
+            });
         }
     </script>
 </body>

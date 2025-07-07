@@ -88,7 +88,7 @@ CREATE TABLE pret(
     FOREIGN KEY (idClient) REFERENCES client(idClient),
     FOREIGN KEY (idTypePret) REFERENCES type_pret(idTypePret),
     FOREIGN KEY (modePaiement) REFERENCES modePaiement(idmodePaiement)
-    );
+);
 
 CREATE TABLE etat_pret(
     idEtatPret INT AUTO_INCREMENT PRIMARY KEY,
@@ -97,6 +97,20 @@ CREATE TABLE etat_pret(
     dateEtat TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (idPret) REFERENCES pret(idPret),
     FOREIGN KEY (etat) REFERENCES etatValidation(idEtat)
+);
+
+CREATE TABLE amortissement (
+    idAmortissement INT AUTO_INCREMENT PRIMARY KEY,
+    idPret INT NOT NULL,
+    numMois INT NOT NULL,
+    datePaiementPrevue DATE NOT NULL,
+    annuite DECIMAL(10,2) NOT NULL,
+    interet DECIMAL(10,2) NOT NULL,
+    assurance DECIMAL(10,2) NOT NULL,
+    capitalRembourse DECIMAL(10,2) NOT NULL,
+    capitalRestant DECIMAL(10,2) NOT NULL,
+    montantTotal DECIMAL(10,2) NOT NULL,
+    FOREIGN KEY (idPret) REFERENCES pret(idPret)
 );
 
 CREATE TABLE remboursement(
@@ -114,18 +128,6 @@ CREATE TABLE remboursement(
     FOREIGN KEY (idPret) REFERENCES pret(idPret),
     FOREIGN KEY (idAmortissement) REFERENCES amortissement(idAmortissement),
     FOREIGN KEY (modePaiement) REFERENCES modePaiement(idmodePaiement)
-);
-
-CREATE TABLE amortissement (
-    idAmortissement INT AUTO_INCREMENT PRIMARY KEY,
-    idPret INT NOT NULL,
-    numMois INT NOT NULL,
-    datePaiementPrevue DATE NOT NULL,
-    montantMensuel DECIMAL(10,2) NOT NULL,
-    interet DECIMAL(10,2) NOT NULL,
-    capitalRembourse DECIMAL(10,2) NOT NULL,
-    capitalRestant DECIMAL(10,2) NOT NULL,
-    FOREIGN KEY (idPret) REFERENCES pret(idPret)
 );
 
 CREATE TABLE compteClient(
