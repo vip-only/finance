@@ -478,3 +478,68 @@ input,
 textarea {
     transition: all 0.2s ease;
 }
+
+    .header-section {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 30px;
+        padding: 20px 0;
+        border-bottom: 2px solid var(--color-200);
+    }
+    
+    .page-info h2 {
+        margin: 0 0 8px 0;
+        color: var(--color-800);
+        font-size: 28px;
+        font-weight: 700;
+    }
+    
+    .page-info .subtitle {
+        margin: 0;
+        color: var(--color-600);
+        font-size: 16px;
+    }
+    
+    .total-fond {
+        text-align: right;
+        background: linear-gradient(135deg, #fef2f2, #fee2e2);
+        padding: 20px 25px;
+        border-radius: 12px;
+        border: 2px solid #fecaca;
+        min-width: 200px;
+        box-shadow: 0 4px 12px rgba(127, 29, 29, 0.15);
+    }
+    
+    .total-amount {
+        font-size: 32px;
+        font-weight: 800;
+        color: #7f1d1d;
+        margin-bottom: 4px;
+        line-height: 1;
+        text-shadow: 0 1px 2px rgba(127, 29, 29, 0.1);
+    }
+    
+    .total-label {
+        font-size: 14px;
+        color: #991b1b;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    @media (max-width: 768px) {
+        .header-section {
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .total-fond {
+            align-self: stretch;
+            text-align: center;
+        }
+        
+        .total-amount {
+            font-size: 28px;
+        }
+    }

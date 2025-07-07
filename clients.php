@@ -76,7 +76,6 @@ include 'includes/header.php';
             <table id="clientsTable">
                 <thead>
                     <tr>
-                        <th>ID</th>
                         <th>Nom</th>
                         <th>Prénom</th>
                         <th>Email</th>
@@ -123,7 +122,6 @@ include 'includes/header.php';
             data.forEach(client => {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
-                    <td>${client.idClient}</td>
                     <td>${client.nom}</td>
                     <td>${client.prenom}</td>
                     <td>${client.email}</td>
