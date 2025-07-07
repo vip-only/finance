@@ -2,6 +2,8 @@
 require_once __DIR__ . '/../db.php';
 
 class Pret {
+    
+
     public static function getAll() {
         $db = getDB();
         $stmt = $db->query("SELECT * FROM pret");
@@ -119,5 +121,54 @@ class Pret {
         $db = getDB();
         $res = $db->query("SELECT $idField as id, $labelField as label FROM $table");
         return $res->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public static function genererAmortissements($idPret) {
+        $db = getDB();
+        $stmt = $db->prepare("SELECT * FROM pret WHERE idPret = ?");
+        $stmt->execute([$idPret]);
+        $pret = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $stmt = $db->prepare("SELECT * FROM type_pret WHERE idTypePret = ?");
+        $stmt->execute([$pret['idTypePret']]);
+        $typePret = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $C = floatval($pret['montantAccorde']);
+        $n = intval($pret['dureeMois']);
+        $i = (floatval($typePret['taux']) / 100) / 12;
+        // $taux_annuel = floatval($typePret['taux']) / 100;
+        // $i = pow(1 + $taux_annuel, 1/12) - 1;
+        $taux_assurance = floatval($typePret['assurance']) / 100;
+        $assurance = $C * $taux_assurance / $n;
+        $date = $pret['dateDebutRemboursement'];
+        $capital_restant = $C;
+
+        // Annuité constante
+        $A = $C * ($i / (1 - pow(1 + $i, -$n)));
+        echo "Annuité A brute : " . $A;
+
+        for ($mois = 1; $mois <= $n; $mois++) {
+            $interet = $capital_restant * $i;
+            $capital_rembourse = $A - $interet;
+            $capital_restant_apres = $capital_restant - $capital_rembourse;
+            $montantTotal = $A + $assurance;
+            $datePaiementPrevue = date('Y-m-d', strtotime("+".($mois-1)." month", strtotime($date)));
+
+            $stmt = $db->prepare("INSERT INTO amortissement (idPret, numMois, datePaiementPrevue, annuite, interet, assurance, capitalRembourse, capitalRestant, montantTotal)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt->execute([
+                $idPret,
+                $mois,
+                $datePaiementPrevue,
+                round($A,2),
+                round($interet,2),
+                round($assurance,2),
+                round($capital_rembourse,2),
+                round(max($capital_restant_apres,0),2),
+                round($montantTotal,2)
+            ]);
+            $capital_restant = $capital_restant_apres;
+        }
+        return $i;
     }
 }

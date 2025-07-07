@@ -88,7 +88,7 @@ CREATE TABLE pret(
     FOREIGN KEY (idClient) REFERENCES client(idClient),
     FOREIGN KEY (idTypePret) REFERENCES type_pret(idTypePret),
     FOREIGN KEY (modePaiement) REFERENCES modePaiement(idmodePaiement)
-    );
+);
 
 CREATE TABLE etat_pret(
     idEtatPret INT AUTO_INCREMENT PRIMARY KEY,
@@ -104,6 +104,12 @@ CREATE TABLE amortissement (
     idPret INT NOT NULL,
     numMois INT NOT NULL,
     datePaiementPrevue DATE NOT NULL,
+    annuite DECIMAL(10,2) NOT NULL,
+    interet DECIMAL(10,2) NOT NULL,
+    assurance DECIMAL(10,2) NOT NULL,
+    capitalRembourse DECIMAL(10,2) NOT NULL,
+    capitalRestant DECIMAL(10,2) NOT NULL,
+    montantTotal DECIMAL(10,2) NOT NULL,
     montantMensuel DECIMAL(10,2) NOT NULL,
     interet DECIMAL(10,2) NOT NULL,
     assurance DECIMAL(10,2) DEFAULT 0.00,
@@ -129,6 +135,7 @@ CREATE TABLE remboursement(
     FOREIGN KEY (idAmortissement) REFERENCES amortissement(idAmortissement),
     FOREIGN KEY (modePaiement) REFERENCES modePaiement(idmodePaiement)
 );
+
 CREATE TABLE compteClient(
     idCompte INT AUTO_INCREMENT PRIMARY KEY,
     idClient INT NOT NULL,
