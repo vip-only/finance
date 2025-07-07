@@ -74,25 +74,8 @@ CREATE TABLE client(
     FOREIGN KEY (etatActif) REFERENCES etatActif(idEtat)
 );
 
-CREATE TABLE demande_pret(
-    idDemande INT AUTO_INCREMENT PRIMARY KEY,
-    idClient INT NOT NULL,
-    idTypePret INT NOT NULL,
-    montantDemande DECIMAL(15,2) NOT NULL,
-    dureeMois INT NOT NULL,
-    motif TEXT NOT NULL,
-    dateDemande TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    modePaiement INT, -- Virement, espèce, etc. (makaiza le vola indraminy)
-    etat INT DEFAULT 1,
-    FOREIGN KEY (idClient) REFERENCES client(idClient),
-    FOREIGN KEY (idTypePret) REFERENCES type_pret(idTypePret),
-    FOREIGN KEY (modePaiement) REFERENCES modePaiement(idmodePaiement),
-    FOREIGN KEY (etat) REFERENCES etatValidation(idEtat)
-);
-
 CREATE TABLE pret(
     idPret INT AUTO_INCREMENT PRIMARY KEY,
-    idDemande INT NOT NULL,
     idClient INT NOT NULL,
     idTypePret INT NOT NULL,
     montantAccorde DECIMAL(15,2) NOT NULL,
@@ -102,11 +85,18 @@ CREATE TABLE pret(
     dateDebutRemboursement DATE NOT NULL,
     dateFinRemboursement DATE NOT NULL,
     modePaiement INT, -- Espèces, Chèque, Virement, etc. (makaiza le vola indraminy)
-    etat INT DEFAULT 1,
     FOREIGN KEY (idDemande) REFERENCES demande_pret(idDemande),
     FOREIGN KEY (idClient) REFERENCES client(idClient),
     FOREIGN KEY (idTypePret) REFERENCES type_pret(idTypePret),
-    FOREIGN KEY (modePaiement) REFERENCES modePaiement(idmodePaiement),
+    FOREIGN KEY (modePaiement) REFERENCES modePaiement(idmodePaiement)
+);
+
+CREATE TABLE etat_pret(
+    idEtatPret INT AUTO_INCREMENT PRIMARY KEY,
+    idPret INT NOT NULL,
+    etat INT NOT NULL, -- En attente, Accepté, Rejeté, En
+    dateEtat TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (idPret) REFERENCES pret(idPret),
     FOREIGN KEY (etat) REFERENCES etatValidation(idEtat)
 );
 
