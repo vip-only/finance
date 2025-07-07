@@ -102,6 +102,7 @@ CREATE TABLE etat_pret(
 CREATE TABLE remboursement(
     idPaiement INT AUTO_INCREMENT PRIMARY KEY,
     idPret INT NOT NULL,
+    idAmortissement INT,
     numMois INT,
     montantPaye DECIMAL(10,2) NOT NULL,
     capital_restant DECIMAL(10,2) NOT NULL,
@@ -111,7 +112,20 @@ CREATE TABLE remboursement(
     modePaiement INT, -- Espèces, Chèque, Virement, etc.
     reference VARCHAR(50), -- Numéro de chèque, référence virement
     FOREIGN KEY (idPret) REFERENCES pret(idPret),
+    FOREIGN KEY (idAmortissement) REFERENCES amortissement(idAmortissement),
     FOREIGN KEY (modePaiement) REFERENCES modePaiement(idmodePaiement)
+);
+
+CREATE TABLE amortissement (
+    idAmortissement INT AUTO_INCREMENT PRIMARY KEY,
+    idPret INT NOT NULL,
+    numMois INT NOT NULL,
+    datePaiementPrevue DATE NOT NULL,
+    montantMensuel DECIMAL(10,2) NOT NULL,
+    interet DECIMAL(10,2) NOT NULL,
+    capitalRembourse DECIMAL(10,2) NOT NULL,
+    capitalRestant DECIMAL(10,2) NOT NULL,
+    FOREIGN KEY (idPret) REFERENCES pret(idPret)
 );
 
 CREATE TABLE compteClient(
