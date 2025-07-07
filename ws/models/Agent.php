@@ -28,4 +28,15 @@ class Agent {
         ]);
         return $db->lastInsertId();
     }
+
+//     public static function create() {
+//     if (!isset($_SESSION['agent_id'])) {
+//         Flight::json(['message' => 'Unauthorized. Please login first.'], 401);
+//         return;
+//     }
+
+//     $data = Flight::request()->data;
+//     $id = Agent::create($data);
+//     Flight::json(['message' => 'Agent ajouté', 'id' => $id]);
+// }
 }
