@@ -15,7 +15,7 @@
                     <div class="nav-icon">👥</div>
                     <div class="nav-text">Clients</div>
                 </a>
-                <a href="template.html#pret" class="nav-item <?php echo ($current_page === 'pret') ? 'active' : ''; ?>">
+                <a href="ajoutPret.php" class="nav-item <?php echo ($current_page === 'pret') ? 'active' : ''; ?>">
                     <div class="nav-icon">💰</div>
                     <div class="nav-text">Prêts</div>
                 </a>
