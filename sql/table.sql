@@ -49,6 +49,7 @@ CREATE TABLE type_pret(
     idTypePret INT AUTO_INCREMENT PRIMARY KEY,
     libelle VARCHAR(100) NOT NULL,
     taux DECIMAL(5,2) NOT NULL,
+    assurance DECIMAL(5,2) DEFAULT 0.00, 
     dateCreation DATE NOT NULL,
     dateAbolition DATE,
     pretmin INT NOT NULL,
@@ -84,12 +85,10 @@ CREATE TABLE pret(
     dateDebutRemboursement DATE NOT NULL,
     dateFinRemboursement DATE NOT NULL,
     modePaiement INT, -- Espèces, Chèque, Virement, etc. (makaiza le vola indraminy)
-    -- type_retour INT, -- Mensuel, Trimestriel, etc.
     FOREIGN KEY (idClient) REFERENCES client(idClient),
     FOREIGN KEY (idTypePret) REFERENCES type_pret(idTypePret),
     FOREIGN KEY (modePaiement) REFERENCES modePaiement(idmodePaiement)
-    -- FOREIGN KEY (type_retour) REFERENCES type_retour(idTypeRetour)
-);
+    );
 
 CREATE TABLE etat_pret(
     idEtatPret INT AUTO_INCREMENT PRIMARY KEY,

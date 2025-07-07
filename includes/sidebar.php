@@ -11,6 +11,10 @@
                     <div class="nav-icon">📊</div>
                     <div class="nav-text">Simulation de Prêt</div>
                 </a>
+                <a href="fond.php" class="nav-item <?php echo ($current_page === 'fond') ? 'active' : ''; ?>">
+                    <div class="nav-icon">💰</div>
+                    <div class="nav-text">Fonds dans l'établissement financier</div>
+                </a>
                 <a href="clients.php" class="nav-item <?php echo ($current_page === 'clients') ? 'active' : ''; ?>">
                     <div class="nav-icon">👥</div>
                     <div class="nav-text">Clients</div>
@@ -27,7 +31,7 @@
                     <div class="nav-icon">💳</div>
                     <div class="nav-text">Remboursements</div>
                 </a>
-                <a href="template.html#typepret" class="nav-item <?php echo ($current_page === 'typepret') ? 'active' : ''; ?>">
+                <a href="typepret.php" class="nav-item <?php echo ($current_page === 'typepret') ? 'active' : ''; ?>">
                     <div class="nav-icon">📋</div>
                     <div class="nav-text">Types de Prêts</div>
                 </a>

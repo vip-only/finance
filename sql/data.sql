@@ -28,44 +28,65 @@ INSERT INTO type_retour (libelle, nbJourEspacant) VALUES
 ('Semestriel', 180),
 ('Annuel', 365);
 
--- Insertion des données avec premières dépendances
-INSERT INTO type_pret (libelle, taux, dateCreation, pretmin, pretmax, dureeMoisMax) VALUES
-('Prêt Personnel', 12.50, CURDATE(), 100000, 5000000, 24),
-('Prêt Immobilier', 6.75, CURDATE(), 5000000, 50000000, 240),
-('Prêt Auto', 9.25, CURDATE(), 1000000, 15000000, 60),
-('Prêt Étudiant', 5.50, CURDATE(), 500000, 3000000, 120),
-('Crédit Revolving', 15.90, CURDATE(), 200000, 2000000, 12);
+-- Insertion des types de prêts
+INSERT INTO type_pret (libelle, taux, assurance, dateCreation, pretmin, pretmax, dureeMoisMax) VALUES
+('Prêt Personnel', 12.50, 1.50, '2025-01-01', 100000, 5000000, 24),
+('Prêt Immobilier', 6.75, 2.00, '2025-01-01', 5000000, 50000000, 240),
+('Prêt Auto', 9.25, 1.75, '2025-01-01', 1000000, 15000000, 60),
+('Prêt Étudiant', 5.50, 0.50, '2025-01-01', 500000, 3000000, 120),
+('Crédit Revolving', 15.90, 0.0, '2025-01-01', 200000, 2000000, 12),
+('Micro-crédit', 18.00, 0.0, '2025-01-01', 50000, 500000, 6);
 
+-- Insertion des agents
 INSERT INTO agent (nom, prenom, motdepasse, email, role, etatActif) VALUES
-('Rabe', 'Jean', 'password123', 'jean.rabe@banque.mg', 'Administrateur', 1),
-('Rakoto', 'Paul', 'securepass456', 'paul.rakoto@banque.mg', 'Conseiller', 1),
-('Andry', 'Lova', 'admin789', 'lova.andry@banque.mg', 'Agent de crédit', 2);
+('Rabe', 'Jean', 'admin123', 'jean.rabe@banque.mg', 'Administrateur', 1),
+('Rakoto', 'Paul', 'conseiller456', 'paul.rakoto@banque.mg', 'Conseiller', 1),
+('Andry', 'Lova', 'agent789', 'lova.andry@banque.mg', 'Agent de crédit', 1),
+('Razafy', 'Sophie', 'sophie2025', 'sophie.razafy@banque.mg', 'Gestionnaire', 1),
+('Rasolofo', 'Michel', 'michel123', 'michel.rasolofo@banque.mg', 'Directeur', 1);
 
+-- Insertion des clients
 INSERT INTO client (nom, prenom, motdepasse, email, telephone, adresse, dateNaissance, profession, revenuMensuel, etatActif) VALUES
-('Rasoa', 'Marie', 'pass1', 'marie.rasoa@email.com', '0321234567', 'Antananarivo', '1990-05-10', 'Comptable', 850000.00, 1),
-('Randri', 'Lina', 'pass2', 'lina.randri@email.com', '0347654321', 'Fianarantsoa', '1988-11-25', 'Infirmière', 650000.00, 1),
-('Rahari', 'Tiana', 'pass3', 'tiana.rahari@email.com', '0339988776', 'Tamatave', '1995-08-19', 'Enseignant', 500000.00, 1);
+('Rasoa', 'Marie', 'marie2025', 'marie.rasoa@email.com', '0321234567', 'Lot IVA 15 Antananarivo', '1990-05-10', 'Comptable', 850000.00, 1),
+('Randri', 'Lina', 'lina123', 'lina.randri@email.com', '0347654321', 'Soarano Fianarantsoa', '1988-11-25', 'Infirmière', 650000.00, 1),
+('Rahari', 'Tiana', 'tiana456', 'tiana.rahari@email.com', '0339988776', 'Tanamakoa Tamatave', '1995-08-19', 'Enseignant', 500000.00, 1),
+('Rakoto', 'Hery', 'hery789', 'hery.rakoto@email.com', '0324567890', 'Antsirabe Centre', '1992-03-15', 'Entrepreneur', 1200000.00, 1),
+('Ranaivo', 'Soa', 'soa2025', 'soa.ranaivo@email.com', '0331122334', 'Mahajanga Be', '1987-12-08', 'Médecin', 1500000.00, 1),
+('Andriamanana', 'Koto', 'koto123', 'koto.andriamanana@email.com', '0338877665', 'Antsiranana Centre', '1993-07-22', 'Ingénieur', 950000.00, 1),
+('Rabemananjara', 'Fidy', 'fidy456', 'fidy.rabemananjara@email.com', '0325544332', 'Toliara Be', '1991-09-14', 'Pharmacien', 1100000.00, 1);
 
+-- Insertion des fonds entrants
 INSERT INTO fondEntrant (montant, descri, datefond) VALUES
-(20000000.00, 'Capital initial', CURDATE()),
-(5000000.00, 'Apport du partenaire', CURDATE());
+(50000000.00, 'Capital initial de la banque', '2025-01-01'),
+(15000000.00, 'Apport des investisseurs', '2025-01-15'),
+(8000000.00, 'Subvention gouvernementale', '2025-02-01'),
+(5500000.00, 'Intérêts perçus mois précédent', '2025-02-15'),
+(3200000.00, 'Remboursements anticipés', '2025-03-01'),
+(7800000.00, 'Donation partenaire international', '2025-03-10');
 
--- INSERT INTO compteClient (idClient, numeroCompte, solde, etatActif) VALUES
--- (1, 'CPT0001', 1500000.00, 1),
--- (2, 'CPT0002', 1000000.00, 1),
--- (3, 'CPT0003', 500000.00, 1);
+-- Insertion des comptes clients
+INSERT INTO compteClient (idClient, numeroCompte, solde, etatActif) VALUES
+(1, 'CPT000001', 1500000.00, 1),
+(2, 'CPT000002', 1000000.00, 1),
+(3, 'CPT000003', 500000.00, 1),
+(4, 'CPT000004', 2000000.00, 1),
+(5, 'CPT000005', 1800000.00, 1),
+(6, 'CPT000006', 750000.00, 1),
+(7, 'CPT000007', 1300000.00, 1);
 
--- INSERT INTO transaction (idCompte, typeTransaction, montant, description) VALUES
--- (1, 1, 200000.00, 'Versement initial'),
--- (1, 2, 50000.00, 'Paiement facture eau'),
--- (2, 1, 100000.00, 'Salaire'),
--- (3, 2, 25000.00, 'Retrait guichet');
+-- Insertion des transactions
+INSERT INTO transaction (idCompte, typeTransaction, montant, description) VALUES
+(1, 1, 200000.00, 'Versement initial'),
+(1, 2, 50000.00, 'Paiement facture électricité'),
+(1, 1, 150000.00, 'Salaire mensuel'),
+(2, 1, 100000.00, 'Transfert familial'),
+(2, 2, 25000.00, 'Retrait distributeur'),
+(3, 1, 80000.00, 'Honoraires consultation'),
+(3, 2, 30000.00, 'Achat médicaments'),
+(4, 1, 300000.00, 'Vente produits'),
+(4, 2, 75000.00, 'Paiement fournisseur'),
+(5, 1, 120000.00, 'Consultation médicale'),
+(5, 2, 40000.00, 'Frais bancaires'),
+(6, 1, 95000.00, 'Salaire ingénieur'),
+(7, 1, 110000.00, 'Vente pharmacie');
 
--- INSERT INTO pret (idDemande, idClient, idTypePret, montantAccorde, dureeMois, montantTotal, dateAccepte, dateDebutRemboursement, dateFinRemboursement, modePaiement, etat) VALUES
--- (1, 1, 1, 3000000.00, 12, 3360000.00, CURDATE(), CURDATE(), DATE_ADD(CURDATE(), INTERVAL 12 MONTH), 1, 2),
--- (2, 2, 2, 25000000.00, 60, 29250000.00, CURDATE(), CURDATE(), DATE_ADD(CURDATE(), INTERVAL 60 MONTH), 2, 1);
-
--- INSERT INTO remboursement (idPret, montantPaye, modePaiement, reference) VALUES
--- (1, 280000.00, 1, 'VIR2025-001'),
--- (1, 280000.00, 1, 'VIR2025-002'),
--- (2, 500000.00, 2, 'ESP2025-001');
