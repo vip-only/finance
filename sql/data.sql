@@ -16,8 +16,7 @@ INSERT INTO modePaiement (libelle) VALUES
 ('Chèque'),
 ('Carte bancaire'),
 ('Prélèvement automatique'),
-('Mobile Money'),
-('Crypto-monnaie');
+('Mobile Money');
 
 INSERT INTO typeTransaction (libelle) VALUES 
 ('Entrée'),
@@ -30,12 +29,12 @@ INSERT INTO type_retour (libelle, nbJourEspacant) VALUES
 ('Annuel', 365);
 
 -- Insertion des données avec premières dépendances
-INSERT INTO type_pret (libelle, taux, type_retour, dateCreation, pretmin, pretmax, dureeMoisMax) VALUES
-('Prêt Personnel', 12.50, 1, CURDATE(), 100000, 5000000, 24),
-('Prêt Immobilier', 6.75, 1, CURDATE(), 5000000, 50000000, 240),
-('Prêt Auto', 9.25, 1, CURDATE(), 1000000, 15000000, 60),
-('Prêt Étudiant', 5.50, 1, CURDATE(), 500000, 3000000, 120),
-('Crédit Revolving', 15.90, 1, CURDATE(), 200000, 2000000, 12);
+INSERT INTO type_pret (libelle, taux, dateCreation, pretmin, pretmax, dureeMoisMax) VALUES
+('Prêt Personnel', 12.50, CURDATE(), 100000, 5000000, 24),
+('Prêt Immobilier', 6.75, CURDATE(), 5000000, 50000000, 240),
+('Prêt Auto', 9.25, CURDATE(), 1000000, 15000000, 60),
+('Prêt Étudiant', 5.50, CURDATE(), 500000, 3000000, 120),
+('Crédit Revolving', 15.90, CURDATE(), 200000, 2000000, 12);
 
 INSERT INTO agent (nom, prenom, motdepasse, email, role, etatActif) VALUES
 ('Rabe', 'Jean', 'password123', 'jean.rabe@banque.mg', 'Administrateur', 1),
@@ -51,27 +50,22 @@ INSERT INTO fondEntrant (montant, descri, datefond) VALUES
 (20000000.00, 'Capital initial', CURDATE()),
 (5000000.00, 'Apport du partenaire', CURDATE());
 
-INSERT INTO compteClient (idClient, numeroCompte, solde, etatActif) VALUES
-(1, 'CPT0001', 1500000.00, 1),
-(2, 'CPT0002', 1000000.00, 1),
-(3, 'CPT0003', 500000.00, 1);
+-- INSERT INTO compteClient (idClient, numeroCompte, solde, etatActif) VALUES
+-- (1, 'CPT0001', 1500000.00, 1),
+-- (2, 'CPT0002', 1000000.00, 1),
+-- (3, 'CPT0003', 500000.00, 1);
 
-INSERT INTO transaction (idCompte, typeTransaction, montant, description) VALUES
-(1, 1, 200000.00, 'Versement initial'),
-(1, 2, 50000.00, 'Paiement facture eau'),
-(2, 1, 100000.00, 'Salaire'),
-(3, 2, 25000.00, 'Retrait guichet');
+-- INSERT INTO transaction (idCompte, typeTransaction, montant, description) VALUES
+-- (1, 1, 200000.00, 'Versement initial'),
+-- (1, 2, 50000.00, 'Paiement facture eau'),
+-- (2, 1, 100000.00, 'Salaire'),
+-- (3, 2, 25000.00, 'Retrait guichet');
 
-INSERT INTO demande_pret (idClient, idTypePret, montantDemande, dureeMois, motif, modePaiement, etat) VALUES
-(1, 1, 3000000.00, 12, 'Projet personnel', 1, 1),
-(2, 2, 25000000.00, 60, 'Achat maison', 2, 1),
-(3, 3, 5000000.00, 36, 'Achat voiture', 3, 1);
+-- INSERT INTO pret (idDemande, idClient, idTypePret, montantAccorde, dureeMois, montantTotal, dateAccepte, dateDebutRemboursement, dateFinRemboursement, modePaiement, etat) VALUES
+-- (1, 1, 1, 3000000.00, 12, 3360000.00, CURDATE(), CURDATE(), DATE_ADD(CURDATE(), INTERVAL 12 MONTH), 1, 2),
+-- (2, 2, 2, 25000000.00, 60, 29250000.00, CURDATE(), CURDATE(), DATE_ADD(CURDATE(), INTERVAL 60 MONTH), 2, 1);
 
-INSERT INTO pret (idDemande, idClient, idTypePret, montantAccorde, dureeMois, montantTotal, dateAccepte, dateDebutRemboursement, dateFinRemboursement, modePaiement, etat) VALUES
-(1, 1, 1, 3000000.00, 12, 3360000.00, CURDATE(), CURDATE(), DATE_ADD(CURDATE(), INTERVAL 12 MONTH), 1, 2),
-(2, 2, 2, 25000000.00, 60, 29250000.00, CURDATE(), CURDATE(), DATE_ADD(CURDATE(), INTERVAL 60 MONTH), 2, 1);
-
-INSERT INTO remboursement (idPret, montantPaye, modePaiement, reference) VALUES
-(1, 280000.00, 1, 'VIR2025-001'),
-(1, 280000.00, 1, 'VIR2025-002'),
-(2, 500000.00, 2, 'ESP2025-001');
+-- INSERT INTO remboursement (idPret, montantPaye, modePaiement, reference) VALUES
+-- (1, 280000.00, 1, 'VIR2025-001'),
+-- (1, 280000.00, 1, 'VIR2025-002'),
+-- (2, 500000.00, 2, 'ESP2025-001');
