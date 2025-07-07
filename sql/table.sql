@@ -23,7 +23,6 @@ CREATE TABLE agent(
     FOREIGN KEY (etatActif) REFERENCES etatActif(idEtat)
 );
 
-
 CREATE TABLE fondEntrant(
     idfond INT AUTO_INCREMENT PRIMARY KEY,
     montant DECIMAL(15,2) NOT NULL,
@@ -73,9 +72,11 @@ CREATE TABLE demande_pret(
     dureeMois INT NOT NULL,
     motif TEXT NOT NULL,
     dateDemande TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    modePaiement INT, -- Espèces, Chèque, Virement, etc. (makaiza le vola indraminy)
     etat INT DEFAULT 1,
     FOREIGN KEY (idClient) REFERENCES client(idClient),
     FOREIGN KEY (idTypePret) REFERENCES type_pret(idTypePret),
+    FOREIGN KEY (modePaiement) REFERENCES modePaiement(idmodePaiement),
     FOREIGN KEY (etat) REFERENCES etatValidation(idEtat)
 );
 
@@ -90,10 +91,12 @@ CREATE TABLE pret(
     dateAccepte DATE NOT NULL,
     dateDebutRemboursement DATE NOT NULL,
     dateFinRemboursement DATE NOT NULL,
+    modePaiement INT, -- Espèces, Chèque, Virement, etc. (makaiza le vola indraminy)
     etat INT DEFAULT 1,
     FOREIGN KEY (idDemande) REFERENCES demande_pret(idDemande),
     FOREIGN KEY (idClient) REFERENCES client(idClient),
     FOREIGN KEY (idTypePret) REFERENCES type_pret(idTypePret),
+    FOREIGN KEY (modePaiement) REFERENCES modePaiement(idmodePaiement),
     FOREIGN KEY (etat) REFERENCES etatValidation(idEtat)
 );
 
@@ -111,6 +114,32 @@ CREATE TABLE paiement(
     reference VARCHAR(50), -- Numéro de chèque, référence virement
     FOREIGN KEY (idPret) REFERENCES pret(idPret),
     FOREIGN KEY (modePaiement) REFERENCES modePaiement(idmodePaiement)
+);
+
+CREATE TABLE compteClient(
+    idCompte INT AUTO_INCREMENT PRIMARY KEY,
+    idClient INT NOT NULL,
+    numeroCompte VARCHAR(20) UNIQUE NOT NULL,
+    solde DECIMAL(15,2) NOT NULL DEFAULT 0.00,
+    dateCreation TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    etatActif INT DEFAULT 1, 
+    FOREIGN KEY (idClient) REFERENCES client(idClient),
+    FOREIGN KEY (etatActif) REFERENCES etatActif(idEtat)
+);
+
+CREATE TABLE typeTransaction(
+    idTypeTransaction INT AUTO_INCREMENT PRIMARY KEY,
+    libelle VARCHAR(50) NOT NULL 
+);
+
+CREATE TABLE transaction(
+    idTransaction INT AUTO_INCREMENT PRIMARY KEY,
+    idCompte INT NOT NULL,
+    typeTransaction INT NOT NULL, 
+    montant DECIMAL(15,2) NOT NULL,
+    dateTransaction TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    description TEXT,
+    FOREIGN KEY (idCompte) REFERENCES compteClient(idCompte)
 );
 
 CREATE TABLE document_client(
@@ -142,4 +171,3 @@ INSERT INTO type_pret (libelle, taux, type_retour, dateCreation) VALUES
 ('Prêt Auto', 9.25, 1, CURDATE()),
 ('Prêt Étudiant', 5.50, 1, CURDATE()),
 ('Crédit Revolving', 15.90, 1, CURDATE());
-
