@@ -99,6 +99,19 @@ CREATE TABLE etat_pret(
     FOREIGN KEY (etat) REFERENCES etatValidation(idEtat)
 );
 
+CREATE TABLE amortissement (
+    idAmortissement INT AUTO_INCREMENT PRIMARY KEY,
+    idPret INT NOT NULL,
+    numMois INT NOT NULL,
+    datePaiementPrevue DATE NOT NULL,
+    montantMensuel DECIMAL(10,2) NOT NULL,
+    interet DECIMAL(10,2) NOT NULL,
+    assurance DECIMAL(10,2) DEFAULT 0.00,
+    capitalRembourse DECIMAL(10,2) NOT NULL,
+    capitalRestant DECIMAL(10,2) NOT NULL,
+    FOREIGN KEY (idPret) REFERENCES pret(idPret)
+);
+
 CREATE TABLE remboursement(
     idPaiement INT AUTO_INCREMENT PRIMARY KEY,
     idPret INT NOT NULL,
@@ -107,27 +120,15 @@ CREATE TABLE remboursement(
     montantPaye DECIMAL(10,2) NOT NULL,
     capital_restant DECIMAL(10,2) NOT NULL,
     capital_rembourse DECIMAL(10,2) NOT NULL,
-    interet DECIMAL(5,2) NOT NULL,
+    interet DECIMAL(10,2) NOT NULL,        
+    assurance DECIMAL(10,2) DEFAULT 0.00,  
     datePaiement TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    modePaiement INT, -- Espèces, Chèque, Virement, etc.
-    reference VARCHAR(50), -- Numéro de chèque, référence virement
+    modePaiement INT,
+    reference VARCHAR(50),
     FOREIGN KEY (idPret) REFERENCES pret(idPret),
     FOREIGN KEY (idAmortissement) REFERENCES amortissement(idAmortissement),
     FOREIGN KEY (modePaiement) REFERENCES modePaiement(idmodePaiement)
 );
-
-CREATE TABLE amortissement (
-    idAmortissement INT AUTO_INCREMENT PRIMARY KEY,
-    idPret INT NOT NULL,
-    numMois INT NOT NULL,
-    datePaiementPrevue DATE NOT NULL,
-    montantMensuel DECIMAL(10,2) NOT NULL,
-    interet DECIMAL(10,2) NOT NULL,
-    capitalRembourse DECIMAL(10,2) NOT NULL,
-    capitalRestant DECIMAL(10,2) NOT NULL,
-    FOREIGN KEY (idPret) REFERENCES pret(idPret)
-);
-
 CREATE TABLE compteClient(
     idCompte INT AUTO_INCREMENT PRIMARY KEY,
     idClient INT NOT NULL,
