@@ -5,10 +5,22 @@ CREATE TABLE etatActif(
     idEtat INT AUTO_INCREMENT PRIMARY KEY,
     libelle VARCHAR(50)
 );
+
 CREATE TABLE etatValidation(
     idEtat INT AUTO_INCREMENT PRIMARY KEY,
     libelle VARCHAR(100) NOT NULL
 );
+
+CREATE TABLE modePaiement(
+    idmodePaiement INT AUTO_INCREMENT PRIMARY KEY,
+    libelle VARCHAR(50)
+);
+
+CREATE TABLE typeTransaction(
+    idTypeTransaction INT AUTO_INCREMENT PRIMARY KEY,
+    libelle VARCHAR(50) NOT NULL 
+);
+
 CREATE TABLE agent(
     idAgent INT AUTO_INCREMENT PRIMARY KEY,
     nom VARCHAR(50) NOT NULL,
@@ -19,17 +31,20 @@ CREATE TABLE agent(
     etatActif INT DEFAULT 1, -- Actif, Inactif
     FOREIGN KEY (etatActif) REFERENCES etatActif(idEtat)
 );
+
 CREATE TABLE fondEntrant(
     idfond INT AUTO_INCREMENT PRIMARY KEY,
     montant DECIMAL(15,2) NOT NULL,
     descri VARCHAR(100),
     datefond DATE NOT NULL
 );
+
 CREATE TABLE type_retour(
     idTypeRetour INT AUTO_INCREMENT PRIMARY KEY,
     libelle VARCHAR(50) NOT NULL,
     nbJourEspacant INT NOT NULL
 );
+
 CREATE TABLE type_pret(
     idTypePret INT AUTO_INCREMENT PRIMARY KEY,
     libelle VARCHAR(100) NOT NULL,
@@ -39,8 +54,10 @@ CREATE TABLE type_pret(
     dateAbolition DATE,
     pretmin INT,
     pretmax INT,
+    dureeMoisMax INT,
     FOREIGN KEY (type_retour) REFERENCES type_retour(idTypeRetour)
 );
+
 CREATE TABLE client(
     idClient INT AUTO_INCREMENT PRIMARY KEY,
     nom VARCHAR(50) NOT NULL,
@@ -56,6 +73,7 @@ CREATE TABLE client(
     etatActif INT DEFAULT 1,
     FOREIGN KEY (etatActif) REFERENCES etatActif(idEtat)
 );
+
 CREATE TABLE demande_pret(
     idDemande INT AUTO_INCREMENT PRIMARY KEY,
     idClient INT NOT NULL,
@@ -71,6 +89,7 @@ CREATE TABLE demande_pret(
     FOREIGN KEY (modePaiement) REFERENCES modePaiement(idmodePaiement),
     FOREIGN KEY (etat) REFERENCES etatValidation(idEtat)
 );
+
 CREATE TABLE pret(
     idPret INT AUTO_INCREMENT PRIMARY KEY,
     idDemande INT NOT NULL,
@@ -89,11 +108,6 @@ CREATE TABLE pret(
     FOREIGN KEY (idTypePret) REFERENCES type_pret(idTypePret),
     FOREIGN KEY (modePaiement) REFERENCES modePaiement(idmodePaiement),
     FOREIGN KEY (etat) REFERENCES etatValidation(idEtat)
-);
-
-CREATE TABLE modePaiement(
-    idmodePaiement INT AUTO_INCREMENT PRIMARY KEY,
-    libelle VARCHAR(50)
 );
 
 CREATE TABLE remboursement(
@@ -118,11 +132,6 @@ CREATE TABLE compteClient(
     FOREIGN KEY (etatActif) REFERENCES etatActif(idEtat)
 );
 
-CREATE TABLE typeTransaction(
-    idTypeTransaction INT AUTO_INCREMENT PRIMARY KEY,
-    libelle VARCHAR(50) NOT NULL 
-);
-
 CREATE TABLE transaction(
     idTransaction INT AUTO_INCREMENT PRIMARY KEY,
     idCompte INT NOT NULL,
@@ -130,7 +139,8 @@ CREATE TABLE transaction(
     montant DECIMAL(15,2) NOT NULL,
     dateTransaction TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     description TEXT,
-    FOREIGN KEY (idCompte) REFERENCES compteClient(idCompte)
+    FOREIGN KEY (idCompte) REFERENCES compteClient(idCompte),
+    FOREIGN KEY (typeTransaction) REFERENCES typeTransaction(idTypeTransaction)
 );
 
 CREATE TABLE document_client(
