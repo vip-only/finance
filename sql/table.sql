@@ -103,6 +103,7 @@ CREATE TABLE etat_pret(
 CREATE TABLE remboursement(
     idPaiement INT AUTO_INCREMENT PRIMARY KEY,
     idPret INT NOT NULL,
+    numMois INT NOT NULL, 
     montantPaye DECIMAL(10,2) NOT NULL,
     datePaiement TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     modePaiement INT, -- Espèces, Chèque, Virement, etc.
