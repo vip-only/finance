@@ -48,14 +48,12 @@ CREATE TABLE type_retour(
 CREATE TABLE type_pret(
     idTypePret INT AUTO_INCREMENT PRIMARY KEY,
     libelle VARCHAR(100) NOT NULL,
-    taux DECIMAL(5,2) NOT NULL, 
-    type_retour INT,
+    taux DECIMAL(5,2) NOT NULL,
     dateCreation DATE NOT NULL,
     dateAbolition DATE,
     pretmin INT NOT NULL,
     pretmax INT NOT NULL,
-    dureeMoisMax INT NOT NULL,
-    FOREIGN KEY (type_retour) REFERENCES type_retour(idTypeRetour)
+    dureeMoisMax INT NOT NULL
 );
 
 CREATE TABLE client(
@@ -78,17 +76,19 @@ CREATE TABLE pret(
     idPret INT AUTO_INCREMENT PRIMARY KEY,
     idClient INT NOT NULL,
     idTypePret INT NOT NULL,
-    montantAccorde DECIMAL(15,2) NOT NULL,
+    montantAccorde DECIMAL(15,2) NOT NULL, -- Montant que le client emprunte
     dureeMois INT NOT NULL,
-    montantTotal DECIMAL(15,2) NOT NULL, 
+    montantTotal DECIMAL(15,2) NOT NULL, -- Montant que le client doit rembourser au total
     dateAccepte DATE NOT NULL,
+    DELAI INT,
     dateDebutRemboursement DATE NOT NULL,
     dateFinRemboursement DATE NOT NULL,
     modePaiement INT, -- Espèces, Chèque, Virement, etc. (makaiza le vola indraminy)
-    FOREIGN KEY (idDemande) REFERENCES demande_pret(idDemande),
+    -- type_retour INT, -- Mensuel, Trimestriel, etc.
     FOREIGN KEY (idClient) REFERENCES client(idClient),
     FOREIGN KEY (idTypePret) REFERENCES type_pret(idTypePret),
     FOREIGN KEY (modePaiement) REFERENCES modePaiement(idmodePaiement)
+    -- FOREIGN KEY (type_retour) REFERENCES type_retour(idTypeRetour)
 );
 
 CREATE TABLE etat_pret(
@@ -103,12 +103,14 @@ CREATE TABLE etat_pret(
 CREATE TABLE remboursement(
     idPaiement INT AUTO_INCREMENT PRIMARY KEY,
     idPret INT NOT NULL,
-    numMois INT NOT NULL, 
+    numMois INT,
     montantPaye DECIMAL(10,2) NOT NULL,
-    
+    capital_restant DECIMAL(10,2) NOT NULL,
+    capital_rembourse DECIMAL(10,2) NOT NULL,
+    interet DECIMAL(5,2) NOT NULL,
     datePaiement TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    modePaiement INT, 
-    reference VARCHAR(50), 
+    modePaiement INT, -- Espèces, Chèque, Virement, etc.
+    reference VARCHAR(50), -- Numéro de chèque, référence virement
     FOREIGN KEY (idPret) REFERENCES pret(idPret),
     FOREIGN KEY (modePaiement) REFERENCES modePaiement(idmodePaiement)
 );
@@ -119,7 +121,7 @@ CREATE TABLE compteClient(
     numeroCompte VARCHAR(20) UNIQUE NOT NULL,
     solde DECIMAL(15,2) NOT NULL DEFAULT 0.00,
     dateCreation TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    etatActif INT DEFAULT 1, 
+    etatActif INT DEFAULT 1,
     FOREIGN KEY (idClient) REFERENCES client(idClient),
     FOREIGN KEY (etatActif) REFERENCES etatActif(idEtat)
 );
@@ -138,11 +140,9 @@ CREATE TABLE transaction(
 CREATE TABLE document_client(
     idDocument INT AUTO_INCREMENT PRIMARY KEY,
     idClient INT NOT NULL,
-    idDemande INT,
     typeDocument VARCHAR(50) NOT NULL, -- CNI, Justificatif revenus, etc.
     nomFichier VARCHAR(255),
     cheminFichier VARCHAR(500),
     dateUpload TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (idClient) REFERENCES client(idClient),
-    FOREIGN KEY (idDemande) REFERENCES demande_pret(idDemande)
+    FOREIGN KEY (idClient) REFERENCES client(idClient)
 );
