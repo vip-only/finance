@@ -1,17 +1,14 @@
 CREATE DATABASE IF NOT EXISTS banque;
 USE banque;
 
-
 CREATE TABLE etatActif(
     idEtat INT AUTO_INCREMENT PRIMARY KEY,
     libelle VARCHAR(50)
 );
-
 CREATE TABLE etatValidation(
     idEtat INT AUTO_INCREMENT PRIMARY KEY,
     libelle VARCHAR(100) NOT NULL
 );
-
 CREATE TABLE agent(
     idAgent INT AUTO_INCREMENT PRIMARY KEY,
     nom VARCHAR(50) NOT NULL,
@@ -22,20 +19,17 @@ CREATE TABLE agent(
     etatActif INT DEFAULT 1, -- Actif, Inactif
     FOREIGN KEY (etatActif) REFERENCES etatActif(idEtat)
 );
-
 CREATE TABLE fondEntrant(
     idfond INT AUTO_INCREMENT PRIMARY KEY,
     montant DECIMAL(15,2) NOT NULL,
     descri VARCHAR(100),
     datefond DATE NOT NULL
 );
-
 CREATE TABLE type_retour(
     idTypeRetour INT AUTO_INCREMENT PRIMARY KEY,
     libelle VARCHAR(50) NOT NULL,
     nbJourEspacant INT NOT NULL
 );
-
 CREATE TABLE type_pret(
     idTypePret INT AUTO_INCREMENT PRIMARY KEY,
     libelle VARCHAR(100) NOT NULL,
@@ -47,7 +41,6 @@ CREATE TABLE type_pret(
     pretmax INT,
     FOREIGN KEY (type_retour) REFERENCES type_retour(idTypeRetour)
 );
-
 CREATE TABLE client(
     idClient INT AUTO_INCREMENT PRIMARY KEY,
     nom VARCHAR(50) NOT NULL,
@@ -63,7 +56,6 @@ CREATE TABLE client(
     etatActif INT DEFAULT 1,
     FOREIGN KEY (etatActif) REFERENCES etatActif(idEtat)
 );
-
 CREATE TABLE demande_pret(
     idDemande INT AUTO_INCREMENT PRIMARY KEY,
     idClient INT NOT NULL,
@@ -72,14 +64,13 @@ CREATE TABLE demande_pret(
     dureeMois INT NOT NULL,
     motif TEXT NOT NULL,
     dateDemande TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    modePaiement INT, -- Espèces, Chèque, Virement, etc. (makaiza le vola indraminy)
+    modePaiement INT, -- Virement, espèce, etc. (makaiza le vola indraminy)
     etat INT DEFAULT 1,
     FOREIGN KEY (idClient) REFERENCES client(idClient),
     FOREIGN KEY (idTypePret) REFERENCES type_pret(idTypePret),
     FOREIGN KEY (modePaiement) REFERENCES modePaiement(idmodePaiement),
     FOREIGN KEY (etat) REFERENCES etatValidation(idEtat)
 );
-
 CREATE TABLE pret(
     idPret INT AUTO_INCREMENT PRIMARY KEY,
     idDemande INT NOT NULL,
