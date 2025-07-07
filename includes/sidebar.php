@@ -27,7 +27,7 @@
                     <div class="nav-icon">📈</div>
                     <div class="nav-text">Statistiques des Intérêts</div>
                 </a>
-                <a href="template.html#remboursement" class="nav-item <?php echo ($current_page === 'remboursement') ? 'active' : ''; ?>">
+                <a href="remboursements.php" class="nav-item <?php echo ($current_page === 'remboursements') ? 'active' : ''; ?>">
                     <div class="nav-icon">💳</div>
                     <div class="nav-text">Remboursements</div>
                 </a>
