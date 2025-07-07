@@ -1,15 +1,14 @@
 :root {
-    --color-50: #fefafa;
-    --color-100: #fecaca;
-    --color-200: #fca5a5;
-    --color-300: #f87171;
-    --color-400: #ef4444;
-    --color-500: #dc2626;
-    --color-600: #b91c1c;
-    --color-700: #991b1b;
-    --color-800: #7f1d1d;
+    --color-50: #f8faf6;     
+    --color-100: #e6f4ea;  
+    --color-200: #ffe5c2;  
+    --color-300: #ffd59e;   
+    --color-400: #ffb86b;  
+    --color-500: #ff944d;     
+    --color-600: #e07a3f;     
+    --color-700: #b05e2e;    
+    --color-800: #4e5d54;     
 }
-
 * {
     margin: 0;
     padding: 0;
