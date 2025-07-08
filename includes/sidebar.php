@@ -7,7 +7,7 @@
             </div>
             
             <nav class="nav-menu">
-                <a href="template.html#simulation" class="nav-item <?php echo ($current_page === 'simulation') ? 'active' : ''; ?>">
+                <a href="simulation.php" class="nav-item <?php echo ($current_page === 'simulation') ? 'active' : ''; ?>">
                     <div class="nav-icon">📊</div>
                     <div class="nav-text">Simulation de Prêt</div>
                 </a>
