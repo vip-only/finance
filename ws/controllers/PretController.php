@@ -42,4 +42,13 @@ class PretController {
         $i = Pret::genererAmortissements($idPret);
         Flight::json(['message' => 'Amortissements générés', 'taux_mensuel' => $i]);
     }
+
+    public static function getTauxByTypePret($id) {
+        $taux = Pret::getTauxByTypePret($id);
+        if ($taux !== null) {
+            Flight::json(['tauxAnnuel' => $taux]);
+        } else {
+            Flight::json(['error' => 'Type de prêt non trouvé'], 404);
+        }
+    }
 }
