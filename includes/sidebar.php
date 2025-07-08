@@ -11,6 +11,10 @@
                     <div class="nav-icon">📊</div>
                     <div class="nav-text">Simulation de Prêt</div>
                 </a>
+                <a href="agent.php" class="nav-item <?php echo ($current_page === 'agent') ? 'active' : ''; ?>">
+                    <div class="nav-icon">🕵️</div>
+                    <div class="nav-text">Ajout d'agent</div>
+                </a>
                 <a href="fond.php" class="nav-item <?php echo ($current_page === 'fond') ? 'active' : ''; ?>">
                     <div class="nav-icon">💰</div>
                     <div class="nav-text">Fonds dans l'établissement financier</div>
