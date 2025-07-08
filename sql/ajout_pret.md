@@ -1,7 +1,7 @@
 AJOUT PRET : 
 -Regles de gestion :
     type_tour : par defaut mensuel ?
-    nb_de_remboursement = dureeMois / type_retour
+    nb_de_remboursement = dureeMois / 1
     taux mensuel = taux / nb_de_remboursement
 
     -typePret : pretmin <= montantAccorde <= pretmax

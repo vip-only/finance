@@ -135,9 +135,10 @@ class Pret {
 
         $C = floatval($pret['montantAccorde']);
         $n = intval($pret['dureeMois']);
-        $i = (floatval($typePret['taux']) / 100) / 12;
-        // $taux_annuel = floatval($typePret['taux']) / 100;
-        // $i = pow(1 + $taux_annuel, 1/12) - 1;
+        
+        $taux_annuel = floatval($typePret['taux']) / 100;
+        $i = pow(1 + $taux_annuel, 1/12) - 1;
+        
         $taux_assurance = floatval($typePret['assurance']) / 100;
         $assurance = $C * $taux_assurance / $n;
         $date = $pret['dateDebutRemboursement'];
@@ -170,5 +171,13 @@ class Pret {
             $capital_restant = $capital_restant_apres;
         }
         return $i;
+    }
+
+    public static function getTauxByTypePret($id) {
+        $db = getDB();
+        $stmt = $db->prepare("SELECT taux FROM type_pret WHERE idTypePret = ?");
+        $stmt->execute([$id]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result ? floatval($result['taux']) : null;
     }
 }

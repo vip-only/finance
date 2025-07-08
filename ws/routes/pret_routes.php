@@ -14,4 +14,7 @@ Flight::route('DELETE /prets/@id', ['PretController', 'delete']);
 Flight::route('GET /pret/options/@table/@idField/@labelField', ['PretController', 'getOptions']);
 Flight::route('POST /prets/@id/amortissements', ['PretController', 'genererAmortissements']);
 
+Flight::route('GET /type_pret/@id/taux', ['PretController', 'getTauxByTypePret']);
+
+
 
