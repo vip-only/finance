@@ -1,40 +1,70 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <title>Gestion des agents</title>
-  <style>
-    body { font-family: sans-serif; padding: 20px; }
-    input, button { margin: 5px; padding: 5px; }
-    table { border-collapse: collapse; width: 100%; margin-top: 20px; }
-    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
-    th { background-color: #f2f2f2; }
-  </style>
-</head>
-<body>
+<?php 
+$page_title = "Ajout d'agent";
+$current_page = "agent";
+$custom_styles = '<link rel="stylesheet" href="statics/css/styleclient.css">';
+include 'includes/header.php';
+include 'includes/sidebar.php';
+?>
 
-  <h1>Gestion des agents</h1>
+<div class="main-content">
+  <h2>Gestion des Agents</h2>
+  <p class="subtitle">Ajoutez un agent à votre équipe</p>
 
-  <div>
-    <input type="hidden" id="idAgent">
-    <input type="text" id="nom" placeholder="Nom">
-    <input type="text" id="prenom" placeholder="Prénom">
-    <input type="email" id="email" placeholder="Email">
-    <input type="password" id="motdepasse" placeholder="Mot de passe">
-    <input type="text" id="role" placeholder="Rôle">
-    <input type="number" id="etatActif" placeholder="État Actif (1=Actif, 0=Inactif)" value="1">
-    <button onclick="ajouterAgent()">Ajouter Agent</button>
+  <div class="section">
+    <h2>Créer un nouvel agent</h2>
+    <form id="agentForm">
+      <input type="hidden" id="idAgent">
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="nom">Nom</label>
+          <input type="text" id="nom" name="nom" required>
+        </div>
+        <div class="form-group">
+          <label for="prenom">Prénom</label>
+          <input type="text" id="prenom" name="prenom" required>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+          <label for="motdepasse">Mot de passe</label>
+          <input type="password" id="motdepasse" name="motdepasse" required>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="role">Rôle</label>
+          <input type="text" id="role" name="role">
+        </div>
+        <div class="form-group">
+          <label for="etatActif">État Actif</label>
+          <input type="number" id="etatActif" name="etatActif" placeholder="1=Actif, 0=Inactif" value="1">
+        </div>
+      </div>
+
+      <button type="button" onclick="ajouterAgent()" class="btn-success">Ajouter Agent</button>
+      <button type="button" onclick="resetForm()" class="btn-secondary">Réinitialiser</button>
+    </form>
   </div>
 
-  <table id="table-agents">
-    <thead>
-      <tr>
-        <th>ID</th><th>Nom</th><th>Prénom</th><th>Email</th><th>Rôle</th><th>État</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
-
+  <div class="section">
+    <h2>Liste des agents</h2>
+    <table id="table-agents">
+      <thead>
+        <tr>
+          <th>ID</th><th>Nom</th><th>Prénom</th><th>Email</th><th>Rôle</th><th>État</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</div>
   <script>
     const apiBase = "http://localhost:80/www/Ocy/finance/ws";
 
@@ -96,5 +126,3 @@
 
     chargerAgents();
   </script>
-</body>
-</html>

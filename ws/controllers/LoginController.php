@@ -1,36 +1,27 @@
 <?php
 require_once __DIR__ . '/../models/Login.php';
-require_once __DIR__ . '/../helpers/Utils.php';
-
-
 
 class LoginController {
     public static function authenticate() {
         $data = Flight::request()->data;
-        $email = $data->email;
-        $password = $data->password;
+        $email = $data->email ?? null;
+        $password = $data->password ?? null;
+
+        if (!$email || !$password) {
+            Flight::json(['success' => false, 'message' => 'Email et mot de passe requis'], 400);
+            return;
+        }
 
         $user = Login::authenticate($email, $password);
 
-        // if ($user) {
-        //     Flight::json([
-        //         'message' => 'Authentication successful',
-        //         'user' => $user
-        //     ]);
-        // } else {
-        //     Flight::json(['message' => 'Invalid email or password'], 401);
-        // }
-
-         if ($user) {
+        if ($user) {
             session_start();
             $_SESSION['idAgent'] = $user['idAgent'];
             $_SESSION['nom'] = $user['nom'];
             $_SESSION['role'] = $user['role'];
-            Flight::redirect('accueil.html');
+            Flight::json(['success' => true]);
         } else {
-            Flight::json(['message' => 'Invalid email or password'], 401);
+            Flight::json(['success' => false, 'message' => 'Invalid email or password'], 401);
         }
-    }   
+    }
 }
-
-
