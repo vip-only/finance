@@ -1,13 +1,13 @@
 :root {
-    --color-50: #f8faf6;     
-    --color-100: #e6f4ea;  
-    --color-200: #ffe5c2;  
-    --color-300: #ffd59e;   
-    --color-400: #ffb86b;  
-    --color-500: #ff944d;     
-    --color-600: #e07a3f;     
-    --color-700: #b05e2e;    
-    --color-800: #4e5d54;     
+    --color-50:  #faf7f7;                        
+    --color-100: #f5e6e6;                       
+    --color-200: #e9bdbd;                       
+    --color-300: #d98c8c;                       
+    --color-400: #c75c5c;                        
+    --color-500: #a83232;                       
+    --color-600: #8b2323;                     
+    --color-700: #6b1a1a;                       
+    --color-800: #4a1010;                    
 }
 * {
     margin: 0;
