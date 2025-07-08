@@ -12,4 +12,8 @@ class FondController {
         $id = FondEntrant::create($data);
         Flight::json(['message' => 'Fond Entrant ajouté', 'id' => $id]);
     }   
+    public static function getFondsParMois() {
+        $fondsParMois = FondEntrant::getFondsParMois();
+        Flight::json($fondsParMois);
+    }
 }    

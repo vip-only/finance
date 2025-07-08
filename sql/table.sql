@@ -111,10 +111,6 @@ CREATE TABLE amortissement (
     capitalRestant DECIMAL(10,2) NOT NULL,
     montantTotal DECIMAL(10,2) NOT NULL,
     montantMensuel DECIMAL(10,2) NOT NULL,
-    interet DECIMAL(10,2) NOT NULL,
-    assurance DECIMAL(10,2) DEFAULT 0.00,
-    capitalRembourse DECIMAL(10,2) NOT NULL,
-    capitalRestant DECIMAL(10,2) NOT NULL,
     FOREIGN KEY (idPret) REFERENCES pret(idPret)
 );
 

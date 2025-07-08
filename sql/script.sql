@@ -9,3 +9,20 @@ CREATE TABLE etudiant (
     email VARCHAR(100),
     age INT
 );
+
+DROP TABLE IF EXISTS document_client;
+DROP TABLE IF EXISTS transaction;
+DROP TABLE IF EXISTS compteClient;
+DROP TABLE IF EXISTS remboursement;
+DROP TABLE IF EXISTS amortissement;
+DROP TABLE IF EXISTS etat_pret;
+DROP TABLE IF EXISTS pret;
+DROP TABLE IF EXISTS client;
+DROP TABLE IF EXISTS type_pret;
+DROP TABLE IF EXISTS type_retour;
+DROP TABLE IF EXISTS fondEntrant;
+DROP TABLE IF EXISTS agent;
+DROP TABLE IF EXISTS typeTransaction;
+DROP TABLE IF EXISTS modePaiement;
+DROP TABLE IF EXISTS etatValidation;
+DROP TABLE IF EXISTS etatActif;

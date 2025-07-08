@@ -1,25 +1,25 @@
--- Insertion des données de base (tables sans dépendances)
+-- Insertion des donnees de base (tables sans dependances)
 INSERT INTO etatActif (libelle) VALUES 
 ('Actif'),
 ('Inactif'),
 ('Suspendu'),
-('Fermé');
+('Ferme');
 
 INSERT INTO etatValidation (libelle) VALUES 
 ('En attente'),
-('Approuvé'),
-('Rejeté');
+('Approuve'),
+('Rejete');
 
 INSERT INTO modePaiement (libelle) VALUES 
 ('Virement bancaire'),
-('Espèces'),
-('Chèque'),
+('Especes'),
+('Cheque'),
 ('Carte bancaire'),
-('Prélèvement automatique'),
+('Prelevement automatique'),
 ('Mobile Money');
 
 INSERT INTO typeTransaction (libelle) VALUES 
-('Entrée'),
+('Entree'),
 ('Sortie');
 
 INSERT INTO type_retour (libelle, nbJourEspacant) VALUES
@@ -30,29 +30,29 @@ INSERT INTO type_retour (libelle, nbJourEspacant) VALUES
 
 -- Insertion des types de prêts
 INSERT INTO type_pret (libelle, taux, assurance, dateCreation, pretmin, pretmax, dureeMoisMax) VALUES
-('Prêt Personnel', 12.50, 1.50, '2025-01-01', 100000, 5000000, 24),
-('Prêt Immobilier', 6.75, 2.00, '2025-01-01', 5000000, 50000000, 240),
-('Prêt Auto', 9.25, 1.75, '2025-01-01', 1000000, 15000000, 60),
-('Prêt Étudiant', 5.50, 0.50, '2025-01-01', 500000, 3000000, 120),
-('Crédit Revolving', 15.90, 0.0, '2025-01-01', 200000, 2000000, 12),
-('Micro-crédit', 18.00, 0.0, '2025-01-01', 50000, 500000, 6);
+('Pret Personnel', 12.50, 1.50, '2025-01-01', 100000, 5000000, 24),
+('Pret Immobilier', 6.75, 2.00, '2025-01-01', 5000000, 50000000, 240),
+('Pret Auto', 9.25, 1.75, '2025-01-01', 1000000, 15000000, 60),
+('Pret Etudiant', 5.50, 0.50, '2025-01-01', 500000, 3000000, 120),
+('Credit Revolving', 15.90, 0.0, '2025-01-01', 200000, 2000000, 12),
+('Micro-credit', 18.00, 0.0, '2025-01-01', 50000, 500000, 6);
 
 -- Insertion des agents
 INSERT INTO agent (nom, prenom, motdepasse, email, role, etatActif) VALUES
 ('Rabe', 'Jean', 'admin123', 'jean.rabe@banque.mg', 'Administrateur', 1),
 ('Rakoto', 'Paul', 'conseiller456', 'paul.rakoto@banque.mg', 'Conseiller', 1),
-('Andry', 'Lova', 'agent789', 'lova.andry@banque.mg', 'Agent de crédit', 1),
+('Andry', 'Lova', 'agent789', 'lova.andry@banque.mg', 'Agent de credit', 1),
 ('Razafy', 'Sophie', 'sophie2025', 'sophie.razafy@banque.mg', 'Gestionnaire', 1),
 ('Rasolofo', 'Michel', 'michel123', 'michel.rasolofo@banque.mg', 'Directeur', 1);
 
 -- Insertion des clients
 INSERT INTO client (nom, prenom, motdepasse, email, telephone, adresse, dateNaissance, profession, revenuMensuel, etatActif) VALUES
 ('Rasoa', 'Marie', 'marie2025', 'marie.rasoa@email.com', '0321234567', 'Lot IVA 15 Antananarivo', '1990-05-10', 'Comptable', 850000.00, 1),
-('Randri', 'Lina', 'lina123', 'lina.randri@email.com', '0347654321', 'Soarano Fianarantsoa', '1988-11-25', 'Infirmière', 650000.00, 1),
+('Randri', 'Lina', 'lina123', 'lina.randri@email.com', '0347654321', 'Soarano Fianarantsoa', '1988-11-25', 'Infirmiere', 650000.00, 1),
 ('Rahari', 'Tiana', 'tiana456', 'tiana.rahari@email.com', '0339988776', 'Tanamakoa Tamatave', '1995-08-19', 'Enseignant', 500000.00, 1),
 ('Rakoto', 'Hery', 'hery789', 'hery.rakoto@email.com', '0324567890', 'Antsirabe Centre', '1992-03-15', 'Entrepreneur', 1200000.00, 1),
-('Ranaivo', 'Soa', 'soa2025', 'soa.ranaivo@email.com', '0331122334', 'Mahajanga Be', '1987-12-08', 'Médecin', 1500000.00, 1),
-('Andriamanana', 'Koto', 'koto123', 'koto.andriamanana@email.com', '0338877665', 'Antsiranana Centre', '1993-07-22', 'Ingénieur', 950000.00, 1),
+('Ranaivo', 'Soa', 'soa2025', 'soa.ranaivo@email.com', '0331122334', 'Mahajanga Be', '1987-12-08', 'Medecin', 1500000.00, 1),
+('Andriamanana', 'Koto', 'koto123', 'koto.andriamanana@email.com', '0338877665', 'Antsiranana Centre', '1993-07-22', 'Ingenieur', 950000.00, 1),
 ('Rabemananjara', 'Fidy', 'fidy456', 'fidy.rabemananjara@email.com', '0325544332', 'Toliara Be', '1991-09-14', 'Pharmacien', 1100000.00, 1);
 
 -- Insertion des fonds entrants
@@ -60,8 +60,8 @@ INSERT INTO fondEntrant (montant, descri, datefond) VALUES
 (50000000.00, 'Capital initial de la banque', '2025-01-01'),
 (15000000.00, 'Apport des investisseurs', '2025-01-15'),
 (8000000.00, 'Subvention gouvernementale', '2025-02-01'),
-(5500000.00, 'Intérêts perçus mois précédent', '2025-02-15'),
-(3200000.00, 'Remboursements anticipés', '2025-03-01'),
+(5500000.00, 'Interets percus mois precedent', '2025-02-15'),
+(3200000.00, 'Remboursements anticipes', '2025-03-01'),
 (7800000.00, 'Donation partenaire international', '2025-03-10');
 
 -- Insertion des comptes clients
@@ -77,17 +77,17 @@ INSERT INTO compteClient (idClient, numeroCompte, solde, etatActif) VALUES
 -- Insertion des transactions
 INSERT INTO transaction (idCompte, typeTransaction, montant, description) VALUES
 (1, 1, 200000.00, 'Versement initial'),
-(1, 2, 50000.00, 'Paiement facture électricité'),
+(1, 2, 50000.00, 'Paiement facture electricite'),
 (1, 1, 150000.00, 'Salaire mensuel'),
 (2, 1, 100000.00, 'Transfert familial'),
 (2, 2, 25000.00, 'Retrait distributeur'),
 (3, 1, 80000.00, 'Honoraires consultation'),
-(3, 2, 30000.00, 'Achat médicaments'),
+(3, 2, 30000.00, 'Achat medicaments'),
 (4, 1, 300000.00, 'Vente produits'),
 (4, 2, 75000.00, 'Paiement fournisseur'),
-(5, 1, 120000.00, 'Consultation médicale'),
+(5, 1, 120000.00, 'Consultation medicale'),
 (5, 2, 40000.00, 'Frais bancaires'),
-(6, 1, 95000.00, 'Salaire ingénieur'),
+(6, 1, 95000.00, 'Salaire ingenieur'),
 (7, 1, 110000.00, 'Vente pharmacie');
 
 
@@ -101,14 +101,14 @@ INSERT INTO pret (idClient, idTypePret, montantAccorde, dureeMois, montantTotal,
 (6, 6, 800000.00, 6, 872000.00, '2025-03-01', 30, '2025-04-01', '2025-09-01', 4),
 (7, 1, 4000000.00, 24, 4500000.00, '2025-03-05', 30, '2025-04-05', '2027-03-05', 1);
 
--- Insertion des états des prêts
+-- Insertion des etats des prêts
 INSERT INTO etat_pret (idPret, etat) VALUES
-(1, 2), -- Prêt 1 approuvé
-(2, 2), -- Prêt 2 approuvé
-(3, 2), -- Prêt 3 approuvé
+(1, 2), -- Prêt 1 approuve
+(2, 2), -- Prêt 2 approuve
+(3, 2), -- Prêt 3 approuve
 (4, 1), -- Prêt 4 en attente
-(5, 2), -- Prêt 5 approuvé
-(6, 2), -- Prêt 6 approuvé
+(5, 2), -- Prêt 5 approuve
+(6, 2), -- Prêt 6 approuve
 (7, 1); -- Prêt 7 en attente
 
 INSERT INTO amortissement (idPret, numMois, datePaiementPrevue, montantMensuel, interet, assurance, capitalRembourse, capitalRestant) VALUES
@@ -170,75 +170,75 @@ INSERT INTO amortissement (idPret, numMois, datePaiementPrevue, montantMensuel, 
 (6, 5, '2025-08-01', 145333.33, 3818.19, 2000.00, 141515.14, 113031.09),
 (6, 6, '2025-09-01', 114727.75, 1695.47, 1331.28, 113031.09, 0.00);
 
--- Insertion des remboursements effectués AVEC assurance
+-- Insertion des remboursements effectues AVEC assurance
 INSERT INTO remboursement (idPret, idAmortissement, numMois, montantPaye, capital_restant, capital_rembourse, interet, assurance, modePaiement, reference) VALUES
--- Prêt 1 (Marie) - 3 premiers mois payés
+-- Prêt 1 (Marie) - 3 premiers mois payes
 (1, 1, 1, 281250.00, 2750000.00, 250000.00, 31250.00, 3750.00, 1, 'VIR2025-001'),
 (1, 2, 2, 281250.00, 2497395.83, 252604.17, 28645.83, 3750.00, 1, 'VIR2025-002'),
 (1, 3, 3, 281250.00, 2242161.41, 255234.42, 26015.58, 3750.00, 1, 'VIR2025-003'),
 
--- Prêt 3 (Tiana) - 2 premiers mois payés
+-- Prêt 3 (Tiana) - 2 premiers mois payes
 (3, 13, 1, 69375.00, 1437500.00, 62500.00, 6875.00, 625.00, 3, 'CHQ2025-001'),
 (3, 14, 2, 69375.00, 1374796.88, 62703.12, 6671.88, 625.00, 3, 'CHQ2025-002'),
 
--- Prêt 5 (Soa) - 4 premiers mois payés
+-- Prêt 5 (Soa) - 4 premiers mois payes
 (5, 21, 1, 125000.00, 1895833.33, 104166.67, 20833.33, 2500.00, 5, 'MOB2025-001'),
 (5, 22, 2, 125000.00, 1790617.36, 105215.97, 19784.03, 2500.00, 5, 'MOB2025-002'),
 (5, 23, 3, 125000.00, 1684335.04, 106282.32, 18717.68, 2500.00, 5, 'MOB2025-003'),
 (5, 24, 4, 125000.00, 1576969.57, 107365.47, 17634.53, 2500.00, 5, 'MOB2025-004'),
 
--- Prêt 6 (Koto) - 1er mois payé
+-- Prêt 6 (Koto) - 1er mois paye
 (6, 31, 1, 145333.33, 666666.67, 133333.33, 12000.00, 2000.00, 4, 'CB2025-001');
 
 -- Remboursements de base (AVEC point-virgule à la fin)
 INSERT INTO remboursement (idPret, idAmortissement, numMois, montantPaye, capital_restant, capital_rembourse, interet, assurance, modePaiement, reference) VALUES
--- Prêt 1 (Marie) - 3 premiers mois payés
+-- Prêt 1 (Marie) - 3 premiers mois payes
 (1, 1, 1, 281250.00, 2750000.00, 250000.00, 31250.00, 3750.00, 1, 'VIR2025-001'),
 (1, 2, 2, 281250.00, 2497395.83, 252604.17, 28645.83, 3750.00, 1, 'VIR2025-002'),
 (1, 3, 3, 281250.00, 2242161.41, 255234.42, 26015.58, 3750.00, 1, 'VIR2025-003'),
 
--- Prêt 3 (Tiana) - 2 premiers mois payés
+-- Prêt 3 (Tiana) - 2 premiers mois payes
 (3, 13, 1, 69375.00, 1437500.00, 62500.00, 6875.00, 625.00, 3, 'CHQ2025-001'),
 (3, 14, 2, 69375.00, 1374796.88, 62703.12, 6671.88, 625.00, 3, 'CHQ2025-002'),
 
--- Prêt 5 (Soa) - 4 premiers mois payés
+-- Prêt 5 (Soa) - 4 premiers mois payes
 (5, 21, 1, 125000.00, 1895833.33, 104166.67, 20833.33, 2500.00, 5, 'MOB2025-001'),
 (5, 22, 2, 125000.00, 1790617.36, 105215.97, 19784.03, 2500.00, 5, 'MOB2025-002'),
 (5, 23, 3, 125000.00, 1684335.04, 106282.32, 18717.68, 2500.00, 5, 'MOB2025-003'),
 (5, 24, 4, 125000.00, 1576969.57, 107365.47, 17634.53, 2500.00, 5, 'MOB2025-004'),
 
--- Prêt 6 (Koto) - 1er mois payé
+-- Prêt 6 (Koto) - 1er mois paye
 (6, 31, 1, 145333.33, 666666.67, 133333.33, 12000.00, 2000.00, 4, 'CB2025-001');
 
--- DEUXIÈME INSERT avec remboursements supplémentaires
+-- DEUXIeME INSERT avec remboursements supplementaires
 INSERT INTO remboursement (idPret, idAmortissement, numMois, montantPaye, capital_restant, capital_rembourse, interet, assurance, datePaiement, modePaiement, reference) VALUES
--- Remboursements supplémentaires pour le prêt 1 (Marie) - mois 4 et 5
+-- Remboursements supplementaires pour le prêt 1 (Marie) - mois 4 et 5
 (1, 4, 4, 281250.00, 1984270.39, 257891.02, 23358.98, 3750.00, '2025-05-20', 1, 'VIR2025-004'),
 (1, 5, 5, 281250.00, 1723696.12, 260574.27, 20675.73, 3750.00, '2025-06-18', 1, 'VIR2025-005'),
 
--- Remboursements supplémentaires pour le prêt 3 (Tiana) - mois 3, 4 et 5
+-- Remboursements supplementaires pour le prêt 3 (Tiana) - mois 3, 4 et 5
 (3, 15, 3, 69375.00, 1311889.70, 62907.18, 6467.82, 625.00, '2025-05-05', 3, 'CHQ2025-003'),
 (3, 16, 4, 69375.00, 1248777.49, 63112.21, 6262.79, 625.00, '2025-06-02', 3, 'CHQ2025-004'),
 (3, 17, 5, 69375.00, 1185459.26, 63318.23, 6056.77, 625.00, '2025-07-08', 3, 'CHQ2025-005'),
 
--- Remboursements supplémentaires pour le prêt 5 (Soa) - mois 5, 6, 7 et 8
+-- Remboursements supplementaires pour le prêt 5 (Soa) - mois 5, 6, 7 et 8
 (5, 25, 5, 125000.00, 1468503.84, 108465.73, 16534.27, 2500.00, '2025-07-20', 5, 'MOB2025-005'),
 (5, 26, 6, 125000.00, 1358920.46, 109583.38, 15416.62, 2500.00, '2025-08-25', 5, 'MOB2025-006'),
 (5, 27, 7, 125000.00, 1248201.71, 110718.75, 14281.25, 2500.00, '2025-09-22', 5, 'MOB2025-007'),
 (5, 28, 8, 125000.00, 1136329.56, 111872.15, 13127.85, 2500.00, '2025-10-28', 5, 'MOB2025-008'),
 
--- Remboursements supplémentaires pour le prêt 6 (Koto) - mois 2, 3 et 4
+-- Remboursements supplementaires pour le prêt 6 (Koto) - mois 2, 3 et 4
 (6, 32, 2, 145333.33, 531333.34, 135333.33, 10000.00, 2000.00, '2025-05-10', 4, 'CB2025-002'),
 (6, 33, 3, 145333.33, 393970.01, 137363.33, 7970.00, 2000.00, '2025-06-12', 4, 'CB2025-003'),
 (6, 34, 4, 145333.33, 254546.23, 139423.78, 5909.55, 2000.00, '2025-07-15', 4, 'CB2025-004');
 
--- TROISIÈME INSERT pour les remboursements de 2024
+-- TROISIeME INSERT pour les remboursements de 2024
 INSERT INTO remboursement (idPret, numMois, montantPaye, capital_restant, capital_rembourse, interet, assurance, datePaiement, modePaiement, reference) VALUES
 -- Janvier 2024
 (1, 10, 120000.00, 800000.00, 110000.00, 10000.00, 1500.00, '2024-01-15', 1, 'VIR2024-001'),
 (3, 8, 85000.00, 600000.00, 78000.00, 7000.00, 800.00, '2024-01-22', 3, 'CHQ2024-001'),
 
--- Février 2024
+-- Fevrier 2024
 (5, 6, 95000.00, 750000.00, 88000.00, 7000.00, 1200.00, '2024-02-10', 5, 'MOB2024-001'),
 (6, 3, 75000.00, 400000.00, 70000.00, 5000.00, 900.00, '2024-02-28', 4, 'CB2024-001'),
 
@@ -275,6 +275,7 @@ INSERT INTO remboursement (idPret, numMois, montantPaye, capital_restant, capita
 (3, 12, 77000.00, 284000.00, 70000.00, 7000.00, 600.00, '2024-11-12', 3, 'CHQ2024-005'),
 (5, 10, 108000.00, 365000.00, 100000.00, 8000.00, 900.00, '2024-11-27', 5, 'MOB2024-005'),
 
--- Décembre 2024
+-- Decembre 2024
 (1, 15, 104000.00, 222000.00, 94000.00, 10000.00, 1000.00, '2024-12-10', 1, 'VIR2024-006'),
 (6, 7, 72000.00, 98000.00, 66000.00, 6000.00, 700.00, '2024-12-20', 4, 'CB2024-005');
+

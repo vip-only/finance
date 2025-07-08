@@ -15,6 +15,10 @@
                     <div class="nav-icon">💰</div>
                     <div class="nav-text">Fonds dans l'établissement financier</div>
                 </a>
+                <a href="fondparmois.php" class="nav-item <?php echo ($current_page === 'fondparmois') ? 'active' : ''; ?>">
+                    <div class="nav-icon">💰</div>
+                    <div class="nav-text">Fonds mensuels à la disposition de l'EF</div>
+                </a>
                 <a href="clients.php" class="nav-item <?php echo ($current_page === 'clients') ? 'active' : ''; ?>">
                     <div class="nav-icon">👥</div>
                     <div class="nav-text">Clients</div>
