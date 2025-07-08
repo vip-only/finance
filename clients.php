@@ -199,8 +199,7 @@ include 'includes/header.php';
 
 <script>
     const apiBase = "http://localhost:80/finance/ws";
-    let allClients = []; // Pour stocker tous les clients et permettre le filtrage local
-
+    let allClients = []; 
     function ajax(method, url, data, callback) {
         const xhr = new XMLHttpRequest();
         xhr.open(method, apiBase + url, true);
@@ -223,7 +222,7 @@ include 'includes/header.php';
     
     function chargerClients() {
         ajax("GET", "/clients", null, (data) => {
-            allClients = data; // Stocker tous les clients
+            allClients = data; 
             afficherClients(data);
             mettreAJourStats(data.length, data.length);
         });
@@ -295,7 +294,6 @@ include 'includes/header.php';
         mettreAJourStats(allClients.length, allClients.length);
     }
     
-    // Fonction pour recherche en temps réel avec délai (debounce)
     function debounce(func, wait) {
         let timeout;
         return function executedFunction(...args) {
@@ -308,10 +306,8 @@ include 'includes/header.php';
         };
     }
     
-    // Appliquer le debounce à la recherche
     const debouncedFilter = debounce(filtrerClients, 300);
     
-    // Écouter les événements sur le champ de recherche
     document.addEventListener('DOMContentLoaded', function() {
         const searchInput = document.getElementById('searchInput');
         if (searchInput) {
@@ -337,7 +333,6 @@ include 'includes/header.php';
         const revenuMensuel = document.getElementById('revenuMensuel').value;
         const motdepasse = document.getElementById('motdepasse').value;
         
-        // Validation basique
         if (!nom || !prenom || !email || !motdepasse) {
             showAlert('Veuillez remplir tous les champs obligatoires.', 'error');
             return;
@@ -445,7 +440,6 @@ include 'includes/header.php';
         }, 5000);
     }
     
-    // Charger les clients au démarrage
     chargerClients();
 </script>
 
