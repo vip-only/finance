@@ -74,6 +74,8 @@ INSERT INTO compteClient (idClient, numeroCompte, solde, etatActif) VALUES
 (6, 'CPT000006', 750000.00, 1),
 (7, 'CPT000007', 1300000.00, 1);
 
+INSER INTO etatValidation(libelle) VALUES ('Simule');
+
 -- Insertion des transactions
 INSERT INTO transaction (idCompte, typeTransaction, montant, description) VALUES
 (1, 1, 200000.00, 'Versement initial'),
