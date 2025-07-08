@@ -444,62 +444,6 @@ include 'includes/header.php';
 </script>
 
 <style>
-    .header-section {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        margin-bottom: 30px;
-        padding: 20px 0;
-        border-bottom: 2px solid var(--color-200);
-    }
-    
-    .date-group {
-        display: flex;
-        gap: 10px;
-        align-items: center;
-    }
-    
-    .date-group label {
-        font-weight: 600;
-        color: var(--color-700);
-        min-width: 30px;
-    }
-    
-    .search-container {
-        display: flex;
-        gap: 15px;
-        align-items: center;
-        flex-wrap: wrap;
-    }
-    .chart-section {
-        background: var(--color-50);
-        border: 2px solid var(--color-200);
-        border-radius: 12px;
-        padding: 24px;
-        margin-bottom: 30px;
-    }
-    
-    .chart-section h3 {
-        color: var(--color-800);
-        margin-bottom: 20px;
-        font-size: 18px;
-        font-weight: 600;
-    }
-    
-    .chart-container {
-        position: relative;
-        height: 400px;
-        width: 100%;
-        margin-bottom: 20px;
-    }
-    
-    .chart-controls {
-        display: flex;
-        gap: 10px;
-        justify-content: center;
-        flex-wrap: wrap;
-    }
-    
     .chart-btn {
         background: var(--color-100);
         color: var(--color-700);
@@ -514,65 +458,35 @@ include 'includes/header.php';
         align-items: center;
         gap: 8px;
     }
-    
-    .chart-btn:hover {
-        background: var(--color-200);
-        border-color: var(--color-400);
-        transform: translateY(-1px);
+    /* Couleurs différentes pour chaque bouton */
+    #barBtn {
+        background: #a83232;
+        color: #fff;
+        border-color: #a83232;
     }
-    
-    .chart-btn.active {
-        background: var(--color-600);
-        color: var(--color-50);
-        border-color: var(--color-700);
-        box-shadow: 0 4px 8px rgba(168, 50, 50, 0.2);
+    #barBtn.active, #barBtn:hover {
+        background: #8b2323;
+        color: #fff;
+        border-color: #8b2323;
     }
-    .table-section {
-        background: var(--color-50);
-        border: 2px solid var(--color-200);
-        border-radius: 12px;
-        padding: 24px;
+    #lineBtn {
+        background: #3273a8;
+        color: #fff;
+        border-color: #3273a8;
     }
-    
-    .table-section h3 {
-        color: var(--color-800);
-        margin-bottom: 20px;
-        font-size: 18px;
-        font-weight: 600;
+    #lineBtn.active, #lineBtn:hover {
+        background: #23518b;
+        color: #fff;
+        border-color: #23518b;
     }
-    #tableInteretsParMois {
-        width: 100%;
-        margin-top: 0;
+    #pieBtn {
+        background: #32a85c;
+        color: #fff;
+        border-color: #32a85c;
     }
-    .section {
-        width: 100%;
-        max-width: none;
-    }
-    
-    .filter-section {
-        width: 100%;
-        box-sizing: border-box;
-    }
-    @media (max-width: 768px) {
-        .chart-container {
-            height: 300px;
-        }
-        
-        .chart-controls {
-            flex-direction: column;
-            align-items: center;
-        }
-        
-        .chart-btn {
-            width: 100%;
-            justify-content: center;
-            max-width: 200px;
-        }
-        
-        .chart-section, .table-section {
-            padding: 16px;
-        }
+    #pieBtn.active, #pieBtn:hover {
+        background: #238b4a;
+        color: #fff;
+        border-color: #238b4a;
     }
 </style>
-
-<?php include 'includes/footer.php'; ?>
