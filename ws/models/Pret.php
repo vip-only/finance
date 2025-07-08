@@ -2,8 +2,6 @@
 require_once __DIR__ . '/../db.php';
 
 class Pret {
-    
-
     public static function getAll() {
         $db = getDB();
         $stmt = $db->query("SELECT * FROM pret");
@@ -17,7 +15,7 @@ class Pret {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public static function create($data) {
+    public static function create($data, $etat = 1) {
         $db = getDB();
 
         // Récupérer infos type_pret
@@ -82,16 +80,15 @@ class Pret {
         ]);
         $idPret = $db->lastInsertId();
 
-        // Insertion dans etat_pret (etat=1 : en attente)
-        $stmt = $db->prepare("INSERT INTO etat_pret (idPret, etat, dateEtat) VALUES (?, 1, NOW())");
-        $stmt->execute([$idPret]);
+        // Insertion dans etat_pret avec l'état spécifié
+        $stmt = $db->prepare("INSERT INTO etat_pret (idPret, etat, dateEtat) VALUES (?, ?, NOW())");
+        $stmt->execute([$idPret, $etat]);
 
         return $idPret;
     }
 
     public static function update($id, $data) {
         $db = getDB();
-        // Même logique de calcul des dates que dans create
         $delai = intval($data->DELAI);
         $dateAccepte = date('Y-m-d');
         $dateDebutRemboursement = date('Y-m-d', strtotime("+$delai month", strtotime($dateAccepte)));
@@ -102,7 +99,7 @@ class Pret {
             $data->idClient,
             $data->idTypePret,
             $data->montantAccorde,
-            $data->dureeMois,
+            $dureeMois,
             $delai,
             $dateDebutRemboursement,
             $dateFinRemboursement,
@@ -123,6 +120,14 @@ class Pret {
         return $res->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public static function getTauxByTypePret($id) {
+        $db = getDB();
+        $stmt = $db->prepare("SELECT taux, assurance FROM type_pret WHERE idTypePret = ?");
+        $stmt->execute([$id]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result ? ['tauxAnnuel' => floatval($result['taux']), 'assurance' => floatval($result['assurance'])] : null;
+    }
+
     public static function genererAmortissements($idPret) {
         $db = getDB();
         $stmt = $db->prepare("SELECT * FROM pret WHERE idPret = ?");
@@ -135,9 +140,7 @@ class Pret {
 
         $C = floatval($pret['montantAccorde']);
         $n = intval($pret['dureeMois']);
-        
-        $taux_annuel = floatval($typePret['taux']) / 100;
-        $i = pow(1 + $taux_annuel, 1/12) - 1;
+        $i = (floatval($typePret['taux']) / 100) / 12;
         
         $taux_assurance = floatval($typePret['assurance']) / 100;
         $assurance = $C * $taux_assurance / $n;
@@ -146,7 +149,6 @@ class Pret {
 
         // Annuité constante
         $A = $C * ($i / (1 - pow(1 + $i, -$n)));
-        echo "Annuité A brute : " . $A;
 
         for ($mois = 1; $mois <= $n; $mois++) {
             $interet = $capital_restant * $i;
@@ -161,23 +163,16 @@ class Pret {
                 $idPret,
                 $mois,
                 $datePaiementPrevue,
-                round($A,2),
-                round($interet,2),
-                round($assurance,2),
-                round($capital_rembourse,2),
-                round(max($capital_restant_apres,0),2),
-                round($montantTotal,2)
+                round($A, 2),
+                round($interet, 2),
+                round($assurance, 2),
+                round($capital_rembourse, 2),
+                round(max($capital_restant_apres, 0), 2),
+                round($montantTotal, 2)
             ]);
             $capital_restant = $capital_restant_apres;
         }
         return $i;
     }
-
-    public static function getTauxByTypePret($id) {
-        $db = getDB();
-        $stmt = $db->prepare("SELECT taux FROM type_pret WHERE idTypePret = ?");
-        $stmt->execute([$id]);
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $result ? floatval($result['taux']) : null;
-    }
 }
+?>

@@ -15,7 +15,8 @@ class PretController {
     public static function create() {
         try {
             $data = Flight::request()->data;
-            $id = Pret::create($data);
+            $etat = isset($data->isSimulation) && $data->isSimulation ? 4 : 1; // 4 pour simulé, 1 pour en attente
+            $id = Pret::create($data, $etat);
             Flight::json(['message' => 'Prêt ajouté', 'id' => $id]);
         } catch (Exception $e) {
             Flight::json(['error' => $e->getMessage()], 400);
@@ -38,17 +39,18 @@ class PretController {
         Flight::json($options);
     }
 
-    public static function genererAmortissements($idPret) {
-        $i = Pret::genererAmortissements($idPret);
-        Flight::json(['message' => 'Amortissements générés', 'taux_mensuel' => $i]);
-    }
-
     public static function getTauxByTypePret($id) {
         $taux = Pret::getTauxByTypePret($id);
         if ($taux !== null) {
-            Flight::json(['tauxAnnuel' => $taux]);
+            Flight::json($taux);
         } else {
             Flight::json(['error' => 'Type de prêt non trouvé'], 404);
         }
     }
+
+    public static function genererAmortissements($idPret) {
+        $i = Pret::genererAmortissements($idPret);
+        Flight::json(['message' => 'Amortissements générés', 'taux_mensuel' => $i]);
+    }
 }
+?>
