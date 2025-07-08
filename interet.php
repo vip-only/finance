@@ -77,7 +77,6 @@ include 'includes/header.php';
         </div>
         
         <div id="resultatSection" style="display: none;">
-            <!-- Section Graphique -->
             <div class="chart-section">
                 <h3>Graphique des intérêts par mois</h3>
                 <div class="chart-container">
@@ -90,7 +89,6 @@ include 'includes/header.php';
                 </div>
             </div>
             
-            <!-- Section Tableau -->
             <div class="table-section">
                 <h3>Détails par mois</h3>
                 <table id="tableInteretsParMois">
@@ -110,7 +108,6 @@ include 'includes/header.php';
     </div>
 </div>
 
-<!-- Inclusion de Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
@@ -119,15 +116,14 @@ include 'includes/header.php';
     let interetsChart = null;
     let currentChartType = 'bar';
 
-    // Couleurs basées sur le style.css
     const chartColors = {
-        primary: '#a83232',      // var(--color-500)
-        secondary: '#8b2323',    // var(--color-600)
-        accent: '#c75c5c',       // var(--color-400)
-        light: '#e9bdbd',        // var(--color-200)
-        lighter: '#f5e6e6',      // var(--color-100)
-        dark: '#6b1a1a',         // var(--color-700)
-        darker: '#4a1010'        // var(--color-800)
+        primary: '#a83232',     
+        secondary: '#8b2323',   
+        accent: '#c75c5c',      
+        light: '#e9bdbd',       
+        lighter: '#f5e6e6',     
+        dark: '#6b1a1a',        
+        darker: '#4a1010'       
     };
 
     function ajax(method, url, data, callback) {
@@ -165,7 +161,6 @@ include 'includes/header.php';
             anneeFin.appendChild(option2);
         }
         
-        // Valeurs par défaut : janvier de l'année courante au mois courant
         document.getElementById('moisDebut').value = '01';
         document.getElementById('anneeDebut').value = currentYear;
         document.getElementById('moisFin').value = currentMonth;
@@ -182,15 +177,11 @@ include 'includes/header.php';
             showAlert('Veuillez sélectionner tous les champs.', 'error');
             return;
         }
-        
-        // Créer les dates au format YYYY-MM-DD
         const dateDebut = `${anneeDebut}-${moisDebut}-01`;
         
-        // Dernier jour du mois de fin
         const dernierJour = new Date(parseInt(anneeFin), parseInt(moisFin), 0).getDate();
         const dateFin = `${anneeFin}-${moisFin}-${String(dernierJour).padStart(2, '0')}`;
         
-        // Vérifier que la période est valide
         if (new Date(dateDebut) > new Date(dateFin)) {
             showAlert('La date de début doit être antérieure à la date de fin.', 'error');
             return;
@@ -201,10 +192,8 @@ include 'includes/header.php';
             afficherInterets(data);
             creerGraphique(data);
             
-            // Afficher la section résultat
             document.getElementById('resultatSection').style.display = 'block';
             
-            // Afficher la période en format lisible
             const moisNoms = [
                 'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
                 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'
@@ -236,19 +225,16 @@ include 'includes/header.php';
             return;
         }
         
-        // Calculer le total
         let totalInterets = 0;
         interets.forEach(row => {
             totalInterets += parseFloat(row.totalInteret);
         });
         
-        // Afficher les lignes
         interets.forEach(row => {
             const tr = document.createElement('tr');
             const montant = parseFloat(row.totalInteret);
             const pourcentage = totalInterets > 0 ? (montant / totalInterets * 100) : 0;
             
-            // Convertir le mois numérique en nom de mois français
             const moisNoms = [
                 'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
                 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'
@@ -277,14 +263,12 @@ include 'includes/header.php';
     function creerGraphique(data) {
         const ctx = document.getElementById('interetsChart').getContext('2d');
         
-        // Détruire le graphique existant s'il y en a un
         if (interetsChart) {
             interetsChart.destroy();
         }
         
         if (data.length === 0) return;
         
-        // Préparer les données
         const moisNoms = [
             'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
             'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'
@@ -458,7 +442,6 @@ include 'includes/header.php';
         align-items: center;
         gap: 8px;
     }
-    /* Couleurs différentes pour chaque bouton */
     #barBtn {
         background: #a83232;
         color: #fff;
