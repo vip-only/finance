@@ -1,51 +1,160 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Gestion des prêts</title>
-</head>
-<body>
-    <h1>Gestion des prêts</h1>
-    <div>
-        <input type="hidden" id="idPret">
-        <select id="idClient" required>
-            <option value="">Sélectionnez un client</option>
-        </select>
-        <select id="idTypePret" required>
-            <option value="">Sélectionnez un type de prêt</option>
-        </select>
-        <input type="number" id="montantAccorde" placeholder="Montant accordé" required>
-        <input type="number" id="dureeMois" placeholder="Durée (mois)" required>
-        <input type="number" id="DELAI" placeholder="Délai (mois)" required>
-        <select id="modePaiement" required>
-            <option value="">Sélectionnez un mode de paiement</option>
-        </select>
-        <button onclick="ajouterOuModifier()">Ajouter / Modifier</button>
+
+<?php 
+$page_title = "Gestion des Prêts - Finance Pro";
+$current_page = "prets";
+$custom_styles = '<link rel="stylesheet" href="statics/css/styleclient.css">';
+include 'includes/header.php';
+?>
+
+<?php include 'includes/sidebar.php'; ?>
+
+<div class="main-content">
+    <h2>Gestion des Prêts</h2>
+    <p class="subtitle">Gérez les prêts, leurs types et les demandes associées</p>
+    
+    <div class="section">
+        <h2>Liste des prêts</h2>
+        <div class="filter-section">
+            <div class="search-container">
+                <label>Mois début: <input type="number" id="moisDebut" min="1" max="12" style="width:60px"></label>
+                <label>Année début: <input type="number" id="anneeDebut" min="2000" style="width:80px"></label>
+                <label>Mois fin: <input type="number" id="moisFin" min="1" max="12" style="width:60px"></label>
+                <label>Année fin: <input type="number" id="anneeFin" min="2000" style="width:80px"></label>
+                <label>État:
+                    <select id="etatFilter">
+                        <option value="">Tous</option>
+                        <option value="1">En attente</option>
+                        <option value="2">Accepté</option>
+                        <option value="3">Rejeté</option>
+                    </select>
+                </label>
+                <button onclick="chargerPrets()" class="btn-success">Filtrer</button>
+            </div>
+        </div>
+        <table id="table-prets">
+            <thead>
+                <tr>
+                    <th>ID</th><th>Client</th><th>Type Prêt</th><th>Montant</th><th>Durée</th><th>Délai</th><th>Début</th><th>Fin</th><th>Actions</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
     </div>
-    <div style="margin-bottom: 15px;">
-        <label>Mois début: <input type="number" id="moisDebut" min="1" max="12" style="width:60px"></label>
-        <label>Année début: <input type="number" id="anneeDebut" min="2000" style="width:80px"></label>
-        <label>Mois fin: <input type="number" id="moisFin" min="1" max="12" style="width:60px"></label>
-        <label>Année fin: <input type="number" id="anneeFin" min="2000" style="width:80px"></label>
-        <label>État:
-            <select id="etatFilter">
-                <option value="">Tous</option>
-                <option value="1">En attente</option>
-                <option value="2">Accepté</option>
-                <option value="3">Rejeté</option>
-            </select>
-        </label>
-        <button onclick="chargerPrets()">Filtrer</button>
+    
+    <div class="section">
+        <h2>Créer ou modifier un prêt</h2>
+        <form id="pretForm" onsubmit="event.preventDefault();ajouterOuModifier();">
+            <input type="hidden" id="idPret">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="idClient">Client</label>
+                    <select id="idClient" required>
+                        <option value="">Sélectionnez un client</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="idTypePret">Type de prêt</label>
+                    <select id="idTypePret" required>
+                        <option value="">Sélectionnez un type de prêt</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="montantAccorde">Montant accordé</label>
+                    <input type="number" id="montantAccorde" placeholder="Montant accordé" required>
+                </div>
+                <div class="form-group">
+                    <label for="dureeMois">Durée (mois)</label>
+                    <input type="number" id="dureeMois" placeholder="Durée (mois)" required>
+                </div>
+                <div class="form-group">
+                    <label for="DELAI">Délai (mois)</label>
+                    <input type="number" id="DELAI" placeholder="Délai (mois)" required>
+                </div>
+                <div class="form-group">
+                    <label for="modePaiement">Mode de paiement</label>
+                    <select id="modePaiement" required>
+                        <option value="">Sélectionnez un mode de paiement</option>
+                    </select>
+                </div>
+            </div>
+            <button type="submit" class="btn-success">Ajouter / Modifier</button>
+            <button type="button" onclick="resetForm()" class="btn-secondary">Réinitialiser</button>
+        </form>
     </div>
-    <table id="table-prets">
-        <thead>
-            <tr>
-                <th>ID</th><th>Client</th><th>Type Prêt</th><th>Montant</th><th>Durée</th><th>Délai</th><th>Début</th><th>Fin</th><th>Actions</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
-    <script>
+</div>
+
+<style>
+    .filter-section {
+        margin-bottom: 20px;
+        padding: 20px;
+        background: #f8f9fa;
+        border-radius: 8px;
+        border: 1px solid #e9ecef;
+    }
+    .search-container {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        margin-bottom: 10px;
+        flex-wrap: wrap;
+    }
+    .btn-success {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 16px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background-color 0.3s ease;
+    }
+    .btn-success:hover {
+        background-color: #388e3c;
+    }
+    .btn-secondary {
+        background-color: #6c757d;
+        color: white;
+        padding: 10px 16px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background-color 0.3s ease;
+    }
+    .btn-secondary:hover {
+        background-color: #5a6268;
+    }
+    .section {
+        margin-bottom: 40px;
+    }
+    .form-row {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+        margin-bottom: 15px;
+    }
+    .form-group {
+        flex: 1;
+        min-width: 180px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+    @media (max-width: 768px) {
+        .form-row, .search-container {
+            flex-direction: column;
+            align-items: stretch;
+        }
+        .form-group {
+            min-width: auto;
+            width: 100%;
+        }
+    }
+</style>
+
+<script>
         const apiBase = "http://localhost/finance/ws";
 
         function ajax(method, url, data, callback) {
@@ -223,5 +332,3 @@
             });
         }
     </script>
-</body>
-</html>

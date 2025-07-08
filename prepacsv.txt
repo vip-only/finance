@@ -1,0 +1,34 @@
+executer dans mysql: LOAD DATA INFILE 'C:/xampp/mysql/data/typepret.csv'
+INTO TABLE type_pret
+FIELDS TERMINATED BY ',' 
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 LINES
+(libelle, taux, assurance, dateCreation, pretmin, pretmax, dureeMoisMax);
+
+
+
+<?php
+if (isset($_POST['import']) && isset($_FILES['csvfile'])) {
+    $file = $_FILES['csvfile']['tmp_name'];
+    $handle = fopen($file, "r");
+    $header = fgetcsv($handle, 1000, ","); // Ignore la première ligne (en-têtes)
+    $imported = 0;
+    $pdo = new PDO('mysql:host=localhost;dbname=banque', 'root', ''); // adapte login/mot de passe
+
+    while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+        $stmt = $pdo->prepare("INSERT INTO type_pret (libelle, taux, assurance, dateCreation, pretmin, pretmax, dureeMoisMax) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        $stmt->execute([
+            $data[0], $data[1], $data[2], $data[3], $data[4], $data[5], $data[6]
+        ]);
+        $imported++;
+    }
+    fclose($handle);
+    echo "<p>$imported types de prêts importés avec succès.</p>";
+}
+?>
+<form method="post" enctype="multipart/form-data">
+    <label>Importer un fichier CSV pour type_pret :</label>
+    <input type="file" name="csvfile" accept=".csv" required>
+    <button type="submit" name="import">Importer</button>
+</form>
