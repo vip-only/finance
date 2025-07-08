@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Gestion des agents</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; }
+    input, button { margin: 5px; padding: 5px; }
+    table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+    th { background-color: #f2f2f2; }
+  </style>
+</head>
+<body>
+
+  <h1>Gestion des agents</h1>
+
+  <div>
+    <input type="hidden" id="idAgent">
+    <input type="text" id="nom" placeholder="Nom">
+    <input type="text" id="prenom" placeholder="Prénom">
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="motdepasse" placeholder="Mot de passe">
+    <input type="text" id="role" placeholder="Rôle">
+    <input type="number" id="etatActif" placeholder="État Actif (1=Actif, 0=Inactif)" value="1">
+    <button onclick="ajouterAgent()">Ajouter Agent</button>
+  </div>
+
+  <table id="table-agents">
+    <thead>
+      <tr>
+        <th>ID</th><th>Nom</th><th>Prénom</th><th>Email</th><th>Rôle</th><th>État</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    const apiBase = "http://localhost:80/www/Ocy/finance/ws";
+
+    function ajax(method, url, data, callback) {
+      const xhr = new XMLHttpRequest();
+      xhr.open(method, apiBase + url, true);
+      xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+      xhr.onreadystatechange = () => {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          callback(JSON.parse(xhr.responseText));
+        }
+      };
+      xhr.send(data);
+    }
+
+    function chargerAgents() {
+      ajax("GET", "/agents", null, (data) => {
+        const tbody = document.querySelector("#table-agents tbody");
+        tbody.innerHTML = "";
+        data.forEach(a => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td>${a.idAgent}</td>
+            <td>${a.nom}</td>
+            <td>${a.prenom}</td>
+            <td>${a.email}</td>
+            <td>${a.role}</td>
+            <td>${a.etatActif == 1 ? 'Actif' : 'Inactif'}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+      });
+    }
+
+    function ajouterAgent() {
+      const nom = document.getElementById("nom").value;
+      const prenom = document.getElementById("prenom").value;
+      const email = document.getElementById("email").value;
+      const motdepasse = document.getElementById("motdepasse").value;
+      const role = document.getElementById("role").value;
+      const etatActif = document.getElementById("etatActif").value;
+
+      const data = `nom=${encodeURIComponent(nom)}&prenom=${encodeURIComponent(prenom)}&email=${encodeURIComponent(email)}&motdepasse=${encodeURIComponent(motdepasse)}&role=${encodeURIComponent(role)}&etatActif=${encodeURIComponent(etatActif)}`;
+
+      ajax("POST", "/agents", data, () => {
+        chargerAgents();
+        resetForm();
+      });
+    }
+
+    function resetForm() {
+      document.getElementById("nom").value = '';
+      document.getElementById("prenom").value = '';
+      document.getElementById("email").value = '';
+      document.getElementById("motdepasse").value = '';
+      document.getElementById("role").value = '';
+      document.getElementById("etatActif").value = '1';
+    }
+
+    chargerAgents();
+  </script>
+</body>
+</html>
