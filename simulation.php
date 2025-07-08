@@ -73,7 +73,12 @@ include 'includes/header.php';
         </div>
 
         <div id="amortissementSection" class="section" style="display:none;">
-            <h2>Tableau d'amortissement (annuité constante)</h2>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <h2>Tableau d'amortissement (annuité constante)</h2>
+                <button id="exportPdfBtn" class="btn-success" onclick="exporterPDF()" style="display: none;">
+                    📄 Exporter en PDF
+                </button>
+            </div>
             <table id="amortissementTable">
                 <thead>
                     <tr>
@@ -244,6 +249,7 @@ include 'includes/header.php';
         }
         document.getElementById('amortissementBody').innerHTML = amortissementRows;
         document.getElementById('amortissementSection').style.display = '';
+        document.getElementById('exportPdfBtn').style.display = 'inline-block';
         
         showAlert('Tableau d\'amortissement généré avec succès!', 'success');
     }
@@ -251,6 +257,7 @@ include 'includes/header.php';
     function rejeterSimulation() {
         document.getElementById('pretSimuleSection').style.display = 'none';
         document.getElementById('amortissementSection').style.display = 'none';
+        document.getElementById('exportPdfBtn').style.display = 'none';
         window.simulationPret = null;
         showAlert('Simulation rejetée.', 'info');
     }
@@ -280,6 +287,45 @@ include 'includes/header.php';
         setTimeout(() => {
             alert.remove();
         }, 5000);
+    }
+
+    function exporterPDF() {
+        const p = window.simulationPret;
+        if (!p) {
+            showAlert('Aucune simulation disponible pour l\'export.', 'error');
+            return;
+        }
+
+        // Préparer les données pour l'export
+        const exportData = {
+            client: document.getElementById('idClient').selectedOptions[0].text,
+            typePret: document.getElementById('idTypePret').selectedOptions[0].text,
+            montantAccorde: p.montantAccorde,
+            dureeMois: p.dureeMois,
+            delai: p.DELAI,
+            modePaiement: document.getElementById('modePaiement').selectedOptions[0].text,
+            dateDebut: p.dateDebut,
+            tauxAnnuel: p.tauxAnnuel,
+            assuranceAnnuel: p.assuranceAnnuel
+        };
+
+        // Créer un formulaire pour envoyer les données
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = 'export_amortissement_pdf.php';
+        form.target = '_blank';
+
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'simulationData';
+        input.value = JSON.stringify(exportData);
+        form.appendChild(input);
+
+        document.body.appendChild(form);
+        form.submit();
+        document.body.removeChild(form);
+
+        showAlert('Export PDF en cours...', 'info');
     }
 </script>
 
