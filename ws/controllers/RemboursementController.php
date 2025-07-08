@@ -50,4 +50,10 @@ class RemboursementController {
         $prets = Remboursement::getPretsPremierRemboursementEnRetard();
         Flight::json($prets);
     }
+    public static function getInteretsParMois() {
+        $dateDebut = Flight::request()->query['dateDebut'];
+        $dateFin = Flight::request()->query['dateFin'];
+        $result = Remboursement::getInteretsParMois($dateDebut, $dateFin);
+        Flight::json($result);
+    }
 }

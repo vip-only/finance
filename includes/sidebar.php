@@ -23,7 +23,7 @@
                     <div class="nav-icon">💰</div>
                     <div class="nav-text">Prêts</div>
                 </a>
-                <a href="template.html#statistiques" class="nav-item <?php echo ($current_page === 'statistiques') ? 'active' : ''; ?>">
+                <a href="interet.php" class="nav-item <?php echo ($current_page === 'interet') ? 'active' : ''; ?>">
                     <div class="nav-icon">📈</div>
                     <div class="nav-text">Statistiques des Intérêts</div>
                 </a>

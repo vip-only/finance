@@ -128,5 +128,24 @@ class Remboursement {
         $stmt = $db->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
+    }
+    public static function getInteretsParMois($dateDebut, $dateFin) {
+        $db = getDB();
+        $query = "SELECT 
+                    DATE_FORMAT(datePaiement, '%Y-%m') as mois,
+                    DATE_FORMAT(datePaiement, '%M %Y') as moisLibelle,
+                    YEAR(datePaiement) as annee,
+                    MONTH(datePaiement) as moisNum,
+                    SUM(interet) as totalInteret
+                FROM remboursement
+                WHERE datePaiement BETWEEN :dateDebut AND :dateFin
+                GROUP BY DATE_FORMAT(datePaiement, '%Y-%m')
+                ORDER BY YEAR(datePaiement) ASC, MONTH(datePaiement) ASC";
+        $stmt = $db->prepare($query);
+        $stmt->execute([
+            ':dateDebut' => $dateDebut,
+            ':dateFin' => $dateFin
+        ]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }   
 }
